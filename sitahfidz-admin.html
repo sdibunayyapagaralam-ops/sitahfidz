@@ -400,24 +400,18 @@ tbody tr:hover { background: var(--gray-50); }
 
     <div id="login-alert" class="alert"></div>
 
-    <div id="login-email-step">
-      <div class="form-group">
-        <label>Email Admin</label>
-        <input type="email" id="inp-login-email" placeholder="admin@sdibunayya.sch.id" autocomplete="email">
-      </div>
-      <button class="btn-login" id="btn-kirim-link" onclick="kirimMagicLink()">🔗 Kirim Link Login</button>
-      <div style="margin-top:1rem; font-size:12px; color:var(--gray-400); background:var(--gray-50); padding:10px 12px; border-radius:var(--radius-sm); line-height:1.6;">
-        <strong style="color:var(--gray-600)">✉️ Login tanpa password:</strong> Link login akan dikirim ke email Anda. Klik link tersebut untuk masuk sebagai Admin.
-      </div>
+    <div class="form-group">
+      <label>Email Admin</label>
+      <input type="email" id="inp-login-email" placeholder="admin@sdibunayya.sch.id" autocomplete="email">
     </div>
-
-    <div id="login-cek-email" style="display:none; text-align:center;">
-      <div style="font-size:48px; margin-bottom:10px;">📬</div>
-      <div style="font-size:15px; font-weight:700; margin-bottom:6px;">Cek inbox Anda!</div>
-      <div style="font-size:13px; color:var(--gray-400); line-height:1.6; margin-bottom:1.25rem;">
-        Link login telah dikirim ke<br><strong id="email-sent-to" style="color:var(--green)"></strong>
-      </div>
-      <button class="btn-login" onclick="backLogin()">⬅ Ganti email / Kirim ulang</button>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="inp-login-pass" placeholder="Masukkan password" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter') doLogin()">
+    </div>
+    <button class="btn-login" id="btn-masuk" onclick="doLogin()">🔐 Masuk</button>
+    <div style="margin-top:1rem; font-size:12px; color:var(--gray-400); background:var(--gray-50); padding:10px 12px; border-radius:var(--radius-sm); line-height:1.6;">
+      <strong style="color:var(--gray-600)">🔒 Akses terbatas:</strong> Halaman ini hanya untuk Admin SD Islam Bunayya.
     </div>
   </div>
 </div>
@@ -822,55 +816,44 @@ function clearTokens() { localStorage.removeItem('admin_token'); localStorage.re
 
 // ===== INIT =====
 window.addEventListener('load', async () => {
-  const hash = window.location.hash;
-  if (hash.includes('access_token')) {
-    const p = new URLSearchParams(hash.replace('#',''));
-    const at = p.get('access_token'), rt = p.get('refresh_token');
-    if (at) { saveToken(at, rt); window.history.replaceState({}, '', location.pathname); }
-  }
   token = loadToken();
   if (token) {
-    const u = await fetch(`${SUPA_URL}/auth/v1/user`, { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${token}` }}).then(r => r.ok ? r.json() : null).catch(() => null);
+    const u = await fetch(`${SUPA_URL}/auth/v1/user`, {
+      headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${token}` }
+    }).then(r => r.ok ? r.json() : null).catch(() => null);
     if (u?.id) {
-      // Check admin role
       const profile = await api(`profiles?id=eq.${u.id}&select=role,full_name`).catch(() => []);
       if (profile[0]?.role === 'admin') {
         currentUser = { ...u, ...profile[0] };
         return enterDashboard();
-      } else if (profile.length === 0) {
-        // First time login — auto-set as admin if no admins exist
-        const admins = await api('profiles?role=eq.admin&select=id').catch(() => []);
-        if (admins.length === 0) {
-          await api('profiles', { method: 'POST', body: JSON.stringify({ id: u.id, full_name: u.user_metadata?.full_name || u.email, role: 'admin' }) }).catch(() => {});
-          currentUser = { ...u, role: 'admin', full_name: u.email };
-          return enterDashboard();
-        }
       }
-      showErr('Akun ini tidak memiliki akses Admin.');
-      clearTokens(); token = null;
     }
+    clearTokens(); token = null;
   }
   switchScreen('login');
 });
 
 // ===== LOGIN =====
-async function kirimMagicLink() {
+async function doLogin() {
   const email = document.getElementById('inp-login-email').value.trim();
+  const pass  = document.getElementById('inp-login-pass').value;
   if (!email || !email.includes('@')) return showErr('Masukkan email yang valid.');
-  const btn = document.getElementById('btn-kirim-link');
-  btn.disabled = true; btn.textContent = 'Mengirim...';
+  if (!pass) return showErr('Masukkan password.');
+  const btn = document.getElementById('btn-masuk');
+  btn.disabled = true; btn.textContent = 'Memverifikasi...';
   hideErr();
-  const res = await authPost('magiclink', { email, options: { emailRedirectTo: location.href.split('#')[0] }});
-  btn.disabled = false; btn.textContent = '🔗 Kirim Link Login';
-  if (res.error) return showErr(res.error.message || 'Gagal kirim link.');
-  document.getElementById('email-sent-to').textContent = email;
-  document.getElementById('login-email-step').style.display = 'none';
-  document.getElementById('login-cek-email').style.display = 'block';
-}
-function backLogin() {
-  document.getElementById('login-email-step').style.display = 'block';
-  document.getElementById('login-cek-email').style.display = 'none';
-  hideErr();
+  const res = await authPost('token?grant_type=password', { email, password: pass });
+  btn.disabled = false; btn.textContent = '🔐 Masuk';
+  if (res.error || !res.access_token) return showErr(res.error?.message || 'Email atau password salah.');
+  saveToken(res.access_token, res.refresh_token);
+  token = res.access_token;
+  const profile = await api(`profiles?id=eq.${res.user.id}&select=role,full_name`).catch(() => []);
+  if (!profile[0] || profile[0].role !== 'admin') {
+    clearTokens(); token = null;
+    return showErr('Akun ini tidak memiliki akses Admin.');
+  }
+  currentUser = { ...res.user, ...profile[0] };
+  enterDashboard();
 }
 function showErr(m) {
   const el = document.getElementById('login-alert');
