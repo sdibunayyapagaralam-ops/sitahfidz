@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiTahfidz — Portal Guru</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a6b45;
+  --green-dark: #0f4a2e;
+  --green-light: #e8f5ee;
+  --green-mid: #2d8a5e;
+  --gold: #b8922a;
+  --gold-light: #fdf6e3;
+  --gold-dark: #8a6a1a;
+  --white: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-400: #9ca3af;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --danger: #dc2626;
+  --danger-light: #fef2f2;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.13);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--gray-50); color: var(--gray-900); min-height: 100vh; }
+
+/* ===== SCREENS ===== */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ===== LOGIN ===== */
+#screen-login {
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #0d3d27 0%, #1a6b45 50%, #0f4a2e 100%);
+  padding: 2rem;
+}
+.login-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.login-logo {
+  width: 72px;
+  height: 72px;
+  background: var(--green-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-family: 'Amiri', serif;
+  font-size: 28px;
+  color: var(--green);
+}
+.login-title { font-size: 22px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: var(--gray-400); margin-bottom: 2rem; }
+.login-sub span { color: var(--green); font-weight: 500; }
+
+.form-group { margin-bottom: 1rem; text-align: left; }
+.form-group label { font-size: 13px; font-weight: 500; color: var(--gray-700); display: block; margin-bottom: 6px; }
+.form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+  color: var(--gray-900);
+}
+.form-group input:focus { border-color: var(--green); }
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 4px;
+}
+.btn-primary:hover { background: var(--green-dark); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled { background: var(--gray-400); cursor: not-allowed; }
+
+.login-note {
+  margin-top: 1.25rem;
+  font-size: 12px;
+  color: var(--gray-400);
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  line-height: 1.6;
+}
+.login-note strong { color: var(--gray-700); }
+
+.alert {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  margin-bottom: 1rem;
+  display: none;
+}
+.alert.success { background: var(--green-light); color: var(--green-dark); border: 1px solid #9FE1CB; }
+.alert.error { background: var(--danger-light); color: var(--danger); border: 1px solid #fca5a5; }
+.alert.show { display: block; }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  background: var(--green);
+  padding: 0 1.5rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.navbar-brand { display: flex; align-items: center; gap: 10px; }
+.navbar-icon {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Amiri', serif;
+  font-size: 18px;
+  color: white;
+}
+.navbar-title { font-size: 15px; font-weight: 700; color: white; }
+.navbar-sub { font-size: 11px; color: rgba(255,255,255,0.7); }
+.navbar-right { display: flex; align-items: center; gap: 10px; }
+.navbar-user { font-size: 12px; color: rgba(255,255,255,0.8); text-align: right; }
+.navbar-user strong { display: block; color: white; font-size: 13px; }
+.btn-logout {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-logout:hover { background: rgba(255,255,255,0.25); }
+
+/* ===== MAIN CONTENT ===== */
+.main { flex: 1; padding: 1.5rem; max-width: 900px; margin: 0 auto; width: 100%; }
+
+/* ===== STATS ===== */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+}
+.stat-label { font-size: 12px; color: var(--gray-400); margin-bottom: 6px; display: flex; align-items: center; gap: 5px; }
+.stat-value { font-size: 26px; font-weight: 700; color: var(--gray-900); }
+.stat-value.green { color: var(--green); }
+.stat-value.gold { color: var(--gold); }
+
+/* ===== CARD ===== */
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+}
+.card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-title { font-size: 15px; font-weight: 600; color: var(--gray-900); display: flex; align-items: center; gap: 8px; }
+.card-title-icon { width: 30px; height: 30px; background: var(--green-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.card-body { padding: 1.25rem; }
+
+/* ===== FORM INPUT ===== */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+.form-row.full { grid-template-columns: 1fr; }
+.field label { font-size: 12px; font-weight: 600; color: var(--gray-600); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+.field select, .field input[type="text"], .field input[type="date"], .field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-900);
+  outline: none;
+  transition: border-color 0.2s;
+  background: white;
+}
+.field select:focus, .field input:focus, .field textarea:focus { border-color: var(--green); }
+.field textarea { resize: vertical; min-height: 70px; }
+
+/* Nilai buttons */
+.nilai-group { display: flex; gap: 8px; flex-wrap: wrap; }
+.nilai-btn {
+  padding: 8px 14px;
+  border-radius: 99px;
+  border: 1.5px solid var(--gray-200);
+  background: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-600);
+}
+.nilai-btn:hover { border-color: var(--green); color: var(--green); }
+.nilai-btn.active.mumtaz { background: #e8f5ee; border-color: var(--green); color: var(--green); }
+.nilai-btn.active.jayyid { background: #fdf6e3; border-color: var(--gold); color: var(--gold-dark); }
+.nilai-btn.active.maqbul { background: #eff6ff; border-color: #3b82f6; color: #1d4ed8; }
+.nilai-btn.active.perlu_latihan { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
+
+/* Status toggle */
+.status-group { display: flex; gap: 8px; }
+.status-btn {
+  flex: 1;
+  padding: 9px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--gray-200);
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-600);
+  text-align: center;
+}
+.status-btn.active.lanjut { background: var(--green-light); border-color: var(--green); color: var(--green); }
+.status-btn.active.ulang { background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
+
+.btn-submit {
+  width: 100%;
+  padding: 13px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-submit:hover { background: var(--green-dark); }
+.btn-submit:active { transform: scale(0.99); }
+.btn-submit:disabled { background: var(--gray-400); cursor: not-allowed; }
+
+/* ===== RIWAYAT TABLE ===== */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--gray-100);
+  white-space: nowrap;
+}
+tbody td { padding: 11px 12px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--gray-50); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge.mumtaz { background: #e8f5ee; color: var(--green); }
+.badge.jayyid { background: var(--gold-light); color: var(--gold-dark); }
+.badge.maqbul { background: #eff6ff; color: #1d4ed8; }
+.badge.perlu_latihan { background: var(--danger-light); color: var(--danger); }
+.badge.lanjut { background: #e8f5ee; color: var(--green); }
+.badge.ulang { background: var(--danger-light); color: var(--danger); }
+
+/* ===== PROGRESS SISWA ===== */
+.progress-bar-wrap { background: var(--gray-100); border-radius: 99px; height: 8px; overflow: hidden; flex: 1; }
+.progress-bar-fill { height: 100%; background: var(--green); border-radius: 99px; transition: width 0.5s; }
+.progress-bar-fill.gold { background: var(--gold); }
+
+.siswa-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+.siswa-item:last-child { border-bottom: none; }
+.siswa-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.siswa-info { flex: 1; min-width: 0; }
+.siswa-nama { font-size: 13px; font-weight: 600; color: var(--gray-900); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.siswa-detail { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+.siswa-progress { display: flex; align-items: center; gap: 8px; min-width: 120px; }
+.siswa-pct { font-size: 11px; font-weight: 600; color: var(--gray-600); min-width: 32px; text-align: right; }
+
+/* ===== LOADING ===== */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--gray-400);
+  font-size: 14px;
+  gap: 10px;
+}
+.spinner {
+  width: 20px; height: 20px;
+  border: 2px solid var(--gray-200);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--gray-400);
+  font-size: 13px;
+}
+.empty-icon { font-size: 32px; margin-bottom: 8px; }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--gray-900);
+  color: white;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 320px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--green); }
+.toast.error { background: var(--danger); }
+
+/* ===== SECTION TABS ===== */
+.section-tabs { display: flex; gap: 4px; margin-bottom: 1.25rem; }
+.section-tab {
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 1.5px solid var(--gray-200);
+  background: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-600);
+  transition: all 0.15s;
+}
+.section-tab.active { background: var(--green); border-color: var(--green); color: white; }
+
+/* Halaman progress siswa per kelas */
+.kelas-select-wrap { display: flex; align-items: center; gap: 10px; }
+.kelas-select-wrap label { font-size: 13px; font-weight: 500; color: var(--gray-600); white-space: nowrap; }
+.kelas-select-wrap select { padding: 7px 10px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif; color: var(--gray-900); outline: none; }
+.kelas-select-wrap select:focus { border-color: var(--green); }
+
+@media (max-width: 600px) {
+  .form-row { grid-template-columns: 1fr; }
+  .form-row.three { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .main { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- SCREEN: LOGIN -->
+<div id="screen-login" class="screen active">
+  <div class="login-card">
+    <div class="login-logo">ط</div>
+    <div class="login-title">SiTahfidz</div>
+    <div class="login-sub">Portal Guru · <span>SD Islam Bunayya</span></div>
+
+    <div class="alert" id="login-alert"></div>
+
+    <div id="form-email-step">
+      <div class="form-group">
+        <label>Email Guru</label>
+        <input type="email" id="input-email" placeholder="contoh@gmail.com" autocomplete="email">
+      </div>
+      <button class="btn-primary" id="btn-send-link" onclick="sendMagicLink()">Kirim Link Login</button>
+      <div class="login-note">
+        <strong>✉️ Cara login:</strong> Masukkan email, kami kirim link login ke inbox Anda. Klik link tersebut untuk masuk — tanpa password.
+      </div>
+    </div>
+
+    <div id="form-check-email" style="display:none;">
+      <div style="font-size:48px; margin-bottom:12px;">📬</div>
+      <div style="font-size:15px; font-weight:600; color:var(--gray-900); margin-bottom:8px;">Cek email Anda!</div>
+      <div style="font-size:13px; color:var(--gray-400); line-height:1.6; margin-bottom:1rem;">
+        Link login telah dikirim ke <strong id="sent-to-email" style="color:var(--green)"></strong>. Buka email dan klik link tersebut.
+      </div>
+      <button class="btn-primary" onclick="backToEmail()">Kirim ulang / Ganti email</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: DASHBOARD -->
+<div id="screen-dashboard" class="screen">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-icon">ط</div>
+      <div>
+        <div class="navbar-title">SiTahfidz</div>
+        <div class="navbar-sub">Portal Guru</div>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="navbar-user">
+        <strong id="nav-user-name">—</strong>
+        <span id="nav-user-email"></span>
+      </div>
+      <button class="btn-logout" onclick="logout()">Keluar</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Section Tabs -->
+    <div class="section-tabs">
+      <button class="section-tab active" onclick="switchSection('input')">📝 Input Iqro</button>
+      <button class="section-tab" onclick="switchSection('riwayat')">📋 Riwayat</button>
+      <button class="section-tab" onclick="switchSection('progress')">📊 Progress Siswa</button>
+    </div>
+
+    <!-- SECTION: INPUT -->
+    <div id="section-input">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">📝 Hari ini</div>
+          <div class="stat-value green" id="stat-today">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">📅 Bulan ini</div>
+          <div class="stat-value" id="stat-month">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">👦 Total Siswa</div>
+          <div class="stat-value" id="stat-siswa">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">🏅 Khatam Iqro</div>
+          <div class="stat-value gold" id="stat-khatam">—</div>
+        </div>
+      </div>
+
+      <!-- Form Input -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-icon">📝</div>
+            Catat Setoran Iqro
+          </div>
+          <div style="font-size:12px; color:var(--gray-400);" id="form-tanggal"></div>
+        </div>
+        <div class="card-body">
+          <div class="alert" id="form-alert"></div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Kelas</label>
+              <select id="sel-kelas" onchange="loadSiswaByKelas()">
+                <option value="">— Pilih Kelas —</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Siswa</label>
+              <select id="sel-siswa">
+                <option value="">— Pilih Siswa —</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Jilid Iqro</label>
+              <select id="sel-jilid" onchange="updateHalamanMax()">
+                <option value="">— Pilih Jilid —</option>
+                <option value="1">Iqro Jilid 1</option>
+                <option value="2">Iqro Jilid 2</option>
+                <option value="3">Iqro Jilid 3</option>
+                <option value="4">Iqro Jilid 4</option>
+                <option value="5">Iqro Jilid 5</option>
+                <option value="6">Iqro Jilid 6</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Tanggal</label>
+              <input type="date" id="inp-tanggal">
+            </div>
+          </div>
+
+          <div class="form-row three">
+            <div class="field">
+              <label>Halaman Mulai</label>
+              <input type="text" id="inp-hal-mulai" placeholder="1" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label>Halaman Selesai</label>
+              <input type="text" id="inp-hal-selesai" placeholder="4" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label>Maks. Halaman</label>
+              <input type="text" id="inp-hal-max" placeholder="32" readonly style="background:var(--gray-50); color:var(--gray-400);">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label>Status</label>
+              <div class="status-group">
+                <button class="status-btn active lanjut" id="btn-lanjut" onclick="setStatus('lanjut')">✅ Lanjut</button>
+                <button class="status-btn" id="btn-ulang" onclick="setStatus('ulang')">🔁 Mengulang</button>
+              </div>
+            </div>
+            <div class="field">
+              <label>Penilaian</label>
+              <div class="nilai-group">
+                <button class="nilai-btn" data-nilai="mumtaz" onclick="setNilai('mumtaz')">Mumtaz</button>
+                <button class="nilai-btn" data-nilai="jayyid" onclick="setNilai('jayyid')">Jayyid</button>
+                <button class="nilai-btn" data-nilai="maqbul" onclick="setNilai('maqbul')">Maqbul</button>
+                <button class="nilai-btn" data-nilai="perlu_latihan" onclick="setNilai('perlu_latihan')">Perlu Latihan</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="field">
+              <label>Catatan Guru (opsional)</label>
+              <textarea id="inp-catatan" placeholder="Misal: bacaan huruf ج perlu diperbaiki..."></textarea>
+            </div>
+          </div>
+
+          <button class="btn-submit" id="btn-submit" onclick="submitCatatan()">
+            <span>💾</span> Simpan Catatan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: RIWAYAT -->
+    <div id="section-riwayat" style="display:none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-icon">📋</div>
+            Riwayat Catatan Iqro
+          </div>
+          <div class="kelas-select-wrap">
+            <label>Filter:</label>
+            <select id="filter-kelas-riwayat" onchange="loadRiwayat()">
+              <option value="">Semua Kelas</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <div id="riwayat-content">
+            <div class="loading"><div class="spinner"></div> Memuat data...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: PROGRESS -->
+    <div id="section-progress" style="display:none;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <div class="card-title-icon">📊</div>
+            Progress Iqro per Siswa
+          </div>
+          <div class="kelas-select-wrap">
+            <label>Kelas:</label>
+            <select id="filter-kelas-progress" onchange="loadProgress()">
+              <option value="">Semua</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="progress-content">
+            <div class="loading"><div class="spinner"></div> Memuat data...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://zghmvyjizzyjmicflmmn.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnaG12eWppenp5am1pY2ZsbW1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NjA0MDksImV4cCI6MjA5NjIzNjQwOX0.OpcWFPTv_32A0GRlWkvBS_rWgmm-Xv4iMwVREhfuxGA';
+
+let currentUser = null;
+let currentSession = null;
+let selectedStatus = 'lanjut';
+let selectedNilai = '';
+let kelasList = [];
+let siswaList = [];
+
+const JILID_MAX = { 1:32, 2:32, 3:32, 4:32, 5:32, 6:32 };
+
+// ===== API HELPERS =====
+async function supaFetch(path, opts = {}) {
+  const url = `${SUPABASE_URL}/rest/v1/${path}`;
+  const headers = {
+    'apikey': SUPABASE_ANON,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation',
+    ...(currentSession ? { 'Authorization': `Bearer ${currentSession.access_token}` } : {}),
+    ...(opts.headers || {})
+  };
+  const res = await fetch(url, { ...opts, headers });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || err.hint || `HTTP ${res.status}`);
+  }
+  const text = await res.text();
+  return text ? JSON.parse(text) : [];
+}
+
+async function supaAuth(path, body) {
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/${path}`, {
+    method: 'POST',
+    headers: { 'apikey': SUPABASE_ANON, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return res.json();
+}
+
+async function supaGetSession() {
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: { 'apikey': SUPABASE_ANON, 'Authorization': `Bearer ${getStoredToken()}` }
+  });
+  if (!res.ok) return null;
+  return res.json();
+}
+
+function getStoredToken() { return localStorage.getItem('sb_access_token') || ''; }
+function storeToken(token, refresh) {
+  localStorage.setItem('sb_access_token', token);
+  if (refresh) localStorage.setItem('sb_refresh_token', refresh);
+}
+function clearToken() {
+  localStorage.removeItem('sb_access_token');
+  localStorage.removeItem('sb_refresh_token');
+}
+
+// ===== INIT =====
+window.addEventListener('load', async () => {
+  // Check URL hash for magic link callback
+  const hash = window.location.hash;
+  if (hash.includes('access_token')) {
+    const params = new URLSearchParams(hash.replace('#', ''));
+    const token = params.get('access_token');
+    const refresh = params.get('refresh_token');
+    if (token) {
+      storeToken(token, refresh);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
+
+  const token = getStoredToken();
+  if (token) {
+    const user = await supaGetSession().catch(() => null);
+    if (user && user.id) {
+      currentUser = user;
+      currentSession = { access_token: token };
+      showDashboard();
+      return;
+    }
+  }
+  showLogin();
+});
+
+// ===== LOGIN =====
+function showLogin() { switchScreen('login'); }
+
+async function sendMagicLink() {
+  const email = document.getElementById('input-email').value.trim();
+  if (!email || !email.includes('@')) {
+    showAlert('login-alert', 'error', 'Masukkan email yang valid.');
+    return;
+  }
+  const btn = document.getElementById('btn-send-link');
+  btn.disabled = true;
+  btn.textContent = 'Mengirim...';
+  hideAlert('login-alert');
+
+  const redirectTo = window.location.href.split('#')[0];
+  const res = await supaAuth('magiclink', { email, options: { emailRedirectTo: redirectTo } });
+
+  btn.disabled = false;
+  btn.textContent = 'Kirim Link Login';
+
+  if (res.error) {
+    showAlert('login-alert', 'error', res.error.message || 'Gagal mengirim link. Coba lagi.');
+    return;
+  }
+  document.getElementById('sent-to-email').textContent = email;
+  document.getElementById('form-email-step').style.display = 'none';
+  document.getElementById('form-check-email').style.display = 'block';
+}
+
+function backToEmail() {
+  document.getElementById('form-email-step').style.display = 'block';
+  document.getElementById('form-check-email').style.display = 'none';
+  hideAlert('login-alert');
+}
+
+async function logout() {
+  clearToken();
+  currentUser = null;
+  currentSession = null;
+  showLogin();
+}
+
+// ===== DASHBOARD =====
+async function showDashboard() {
+  switchScreen('dashboard');
+  const name = currentUser.user_metadata?.full_name || currentUser.email || '—';
+  document.getElementById('nav-user-name').textContent = name.split(' ').slice(0,2).join(' ');
+  document.getElementById('nav-user-email').textContent = currentUser.email || '';
+
+  const today = new Date();
+  document.getElementById('form-tanggal').textContent =
+    today.toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('inp-tanggal').value = today.toISOString().split('T')[0];
+
+  await loadKelas();
+  await loadStats();
+}
+
+async function loadKelas() {
+  try {
+    kelasList = await supaFetch('kelas?select=id,nama_kelas,tingkat&order=tingkat,nama_kelas');
+    const selKelas = document.getElementById('sel-kelas');
+    const filterRiwayat = document.getElementById('filter-kelas-riwayat');
+    const filterProgress = document.getElementById('filter-kelas-progress');
+    [selKelas, filterRiwayat, filterProgress].forEach(sel => {
+      const firstOpt = sel.options[0];
+      sel.innerHTML = '';
+      sel.appendChild(firstOpt);
+      kelasList.forEach(k => {
+        const o = document.createElement('option');
+        o.value = k.id;
+        o.textContent = `Kelas ${k.nama_kelas}`;
+        sel.appendChild(o);
+      });
+    });
+  } catch(e) { console.error(e); }
+}
+
+async function loadSiswaByKelas() {
+  const kelasId = document.getElementById('sel-kelas').value;
+  const selSiswa = document.getElementById('sel-siswa');
+  selSiswa.innerHTML = '<option value="">— Pilih Siswa —</option>';
+  if (!kelasId) return;
+  try {
+    siswaList = await supaFetch(`siswa?kelas_id=eq.${kelasId}&aktif=eq.true&select=id,nama_lengkap,nis&order=nama_lengkap`);
+    siswaList.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s.id;
+      o.textContent = `${s.nama_lengkap} (${s.nis})`;
+      selSiswa.appendChild(o);
+    });
+    // Auto-fill jilid dari progress terakhir siswa pertama (opsional)
+  } catch(e) { showAlert('form-alert','error','Gagal memuat daftar siswa.'); }
+}
+
+async function loadStats() {
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const monthStart = today.slice(0,7) + '-01';
+
+    const [todayData, monthData, siswaData, khatamData] = await Promise.all([
+      supaFetch(`catatan_iqro?guru_id=eq.${currentUser.id}&tanggal=eq.${today}&select=id`),
+      supaFetch(`catatan_iqro?guru_id=eq.${currentUser.id}&tanggal=gte.${monthStart}&select=id`),
+      supaFetch('siswa?aktif=eq.true&select=id'),
+      supaFetch('progress_iqro?khatam_iqro=eq.true&select=id')
+    ]);
+
+    document.getElementById('stat-today').textContent = todayData.length;
+    document.getElementById('stat-month').textContent = monthData.length;
+    document.getElementById('stat-siswa').textContent = siswaData.length;
+    document.getElementById('stat-khatam').textContent = khatamData.length;
+  } catch(e) { console.error(e); }
+}
+
+// ===== FORM =====
+function updateHalamanMax() {
+  const jilid = parseInt(document.getElementById('sel-jilid').value);
+  document.getElementById('inp-hal-max').value = jilid ? JILID_MAX[jilid] : '';
+}
+
+function setStatus(val) {
+  selectedStatus = val;
+  document.getElementById('btn-lanjut').className = 'status-btn' + (val === 'lanjut' ? ' active lanjut' : '');
+  document.getElementById('btn-ulang').className = 'status-btn' + (val === 'ulang' ? ' active ulang' : '');
+}
+
+function setNilai(val) {
+  selectedNilai = val;
+  document.querySelectorAll('.nilai-btn').forEach(b => {
+    b.className = 'nilai-btn' + (b.dataset.nilai === val ? ` active ${val}` : '');
+  });
+}
+
+async function submitCatatan() {
+  const siswaId = document.getElementById('sel-siswa').value;
+  const jilidId = document.getElementById('sel-jilid').value;
+  const halMulai = parseInt(document.getElementById('inp-hal-mulai').value);
+  const halSelesai = parseInt(document.getElementById('inp-hal-selesai').value);
+  const tanggal = document.getElementById('inp-tanggal').value;
+  const catatan = document.getElementById('inp-catatan').value.trim();
+
+  if (!siswaId) return showAlert('form-alert','error','Pilih siswa terlebih dahulu.');
+  if (!jilidId) return showAlert('form-alert','error','Pilih jilid Iqro.');
+  if (!halMulai || !halSelesai) return showAlert('form-alert','error','Isi halaman mulai dan selesai.');
+  if (halMulai > halSelesai) return showAlert('form-alert','error','Halaman mulai tidak boleh lebih besar dari halaman selesai.');
+  if (halSelesai > JILID_MAX[jilidId]) return showAlert('form-alert','error',`Halaman melebihi batas jilid ${jilidId} (maks. ${JILID_MAX[jilidId]}).`);
+  if (!selectedNilai) return showAlert('form-alert','error','Pilih penilaian.');
+  if (!tanggal) return showAlert('form-alert','error','Isi tanggal setoran.');
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="border-top-color:white;width:18px;height:18px;border-width:2px;"></div> Menyimpan...';
+  hideAlert('form-alert');
+
+  try {
+    await supaFetch('catatan_iqro', {
+      method: 'POST',
+      body: JSON.stringify({
+        siswa_id: siswaId,
+        guru_id: currentUser.id,
+        jilid_id: parseInt(jilidId),
+        halaman_mulai: halMulai,
+        halaman_selesai: halSelesai,
+        status: selectedStatus,
+        nilai: selectedNilai,
+        catatan: catatan || null,
+        sumber: 'sekolah',
+        tanggal
+      })
+    });
+
+    showToast('✅ Catatan berhasil disimpan!', 'success');
+    resetForm();
+    await loadStats();
+  } catch(e) {
+    showAlert('form-alert','error', `Gagal menyimpan: ${e.message}`);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>💾</span> Simpan Catatan';
+  }
+}
+
+function resetForm() {
+  document.getElementById('sel-siswa').value = '';
+  document.getElementById('sel-jilid').value = '';
+  document.getElementById('inp-hal-mulai').value = '';
+  document.getElementById('inp-hal-selesai').value = '';
+  document.getElementById('inp-hal-max').value = '';
+  document.getElementById('inp-catatan').value = '';
+  setStatus('lanjut');
+  setNilai('');
+  hideAlert('form-alert');
+}
+
+// ===== RIWAYAT =====
+async function loadRiwayat() {
+  const kelasId = document.getElementById('filter-kelas-riwayat').value;
+  const container = document.getElementById('riwayat-content');
+  container.innerHTML = '<div class="loading"><div class="spinner"></div> Memuat...</div>';
+
+  try {
+    let siswaIds = [];
+    if (kelasId) {
+      const sw = await supaFetch(`siswa?kelas_id=eq.${kelasId}&select=id`);
+      siswaIds = sw.map(s => s.id);
+    }
+
+    let path = `catatan_iqro?guru_id=eq.${currentUser.id}&select=id,tanggal,jilid_id,halaman_mulai,halaman_selesai,status,nilai,catatan,siswa_id,siswa(nama_lengkap,nis)&order=tanggal.desc,created_at.desc&limit=50`;
+    if (siswaIds.length) path += `&siswa_id=in.(${siswaIds.join(',')})`;
+
+    const data = await supaFetch(path);
+
+    if (!data.length) {
+      container.innerHTML = '<div class="empty"><div class="empty-icon">📋</div>Belum ada catatan.</div>';
+      return;
+    }
+
+    const nilaiLabel = { mumtaz:'Mumtaz', jayyid:'Jayyid', maqbul:'Maqbul', perlu_latihan:'Perlu Latihan' };
+    const rows = data.map(d => `
+      <tr>
+        <td>${d.tanggal}</td>
+        <td><strong>${d.siswa?.nama_lengkap || '—'}</strong><br><small style="color:var(--gray-400)">${d.siswa?.nis || ''}</small></td>
+        <td>Jilid ${d.jilid_id}</td>
+        <td style="text-align:center">${d.halaman_mulai}–${d.halaman_selesai}</td>
+        <td><span class="badge ${d.status}">${d.status === 'lanjut' ? 'Lanjut' : 'Mengulang'}</span></td>
+        <td><span class="badge ${d.nilai}">${nilaiLabel[d.nilai] || '—'}</span></td>
+        <td style="max-width:150px;color:var(--gray-400);font-size:12px">${d.catatan || '—'}</td>
+      </tr>`).join('');
+
+    container.innerHTML = `
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>Tanggal</th><th>Siswa</th><th>Jilid</th><th>Halaman</th><th>Status</th><th>Nilai</th><th>Catatan</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  } catch(e) {
+    container.innerHTML = `<div class="empty">Gagal memuat data: ${e.message}</div>`;
+  }
+}
+
+// ===== PROGRESS =====
+async function loadProgress() {
+  const kelasId = document.getElementById('filter-kelas-progress').value;
+  const container = document.getElementById('progress-content');
+  container.innerHTML = '<div class="loading"><div class="spinner"></div> Memuat...</div>';
+
+  try {
+    let path = `progress_iqro?select=siswa_id,jilid_sekarang,halaman_sekarang,khatam_iqro,siswa(nama_lengkap,nis,kelas_id,kelas(nama_kelas))&order=jilid_sekarang.desc,halaman_sekarang.desc`;
+
+    let data = await supaFetch(path);
+
+    if (kelasId) data = data.filter(d => d.siswa?.kelas_id == kelasId);
+
+    if (!data.length) {
+      container.innerHTML = '<div class="empty"><div class="empty-icon">📊</div>Belum ada data progress.</div>';
+      return;
+    }
+
+    const items = data.map(d => {
+      const jilid = d.jilid_sekarang || 1;
+      const hal = d.halaman_sekarang || 1;
+      const totalProgress = ((jilid - 1) * 32 + hal) / (6 * 32) * 100;
+      const pct = Math.min(100, Math.round(totalProgress));
+      const nama = d.siswa?.nama_lengkap || '—';
+      const inisial = nama.split(' ').map(n => n[0]).slice(0,2).join('').toUpperCase();
+      const kelas = d.siswa?.kelas?.nama_kelas || '—';
+      const khatam = d.khatam_iqro;
+
+      return `
+        <div class="siswa-item">
+          <div class="siswa-avatar">${khatam ? '🏅' : inisial}</div>
+          <div class="siswa-info">
+            <div class="siswa-nama">${nama}</div>
+            <div class="siswa-detail">Kelas ${kelas} · ${khatam ? 'Khatam Iqro ✓' : `Jilid ${jilid} hal. ${hal}`}</div>
+          </div>
+          <div class="siswa-progress">
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill ${khatam ? 'gold' : ''}" style="width:${pct}%"></div>
+            </div>
+            <div class="siswa-pct">${pct}%</div>
+          </div>
+        </div>`;
+    }).join('');
+
+    container.innerHTML = items;
+  } catch(e) {
+    container.innerHTML = `<div class="empty">Gagal memuat: ${e.message}</div>`;
+  }
+}
+
+// ===== SECTION TABS =====
+function switchSection(name) {
+  const sections = ['input','riwayat','progress'];
+  sections.forEach(s => {
+    document.getElementById(`section-${s}`).style.display = s === name ? 'block' : 'none';
+  });
+  document.querySelectorAll('.section-tab').forEach((t, i) => {
+    t.classList.toggle('active', sections[i] === name);
+  });
+  if (name === 'riwayat') loadRiwayat();
+  if (name === 'progress') loadProgress();
+}
+
+// ===== UTILS =====
+function switchScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(`screen-${name}`).classList.add('active');
+}
+
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = `alert ${type} show`;
+  el.textContent = msg;
+}
+function hideAlert(id) {
+  const el = document.getElementById(id);
+  el.className = 'alert';
+}
+
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.className = 'toast', 3000);
+}
+</script>
+</body>
+</html>

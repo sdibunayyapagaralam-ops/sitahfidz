@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiTahfidz — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1a6b45;
+  --green-dark: #0f4a2e;
+  --green-mid: #2d8a5e;
+  --green-light: #e8f5ee;
+  --gold: #b8922a;
+  --gold-light: #fdf6e3;
+  --gold-dark: #7a5a10;
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-900: #0f172a;
+  --danger: #dc2626;
+  --danger-light: #fef2f2;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--gray-50); color: var(--gray-900); min-height: 100vh; }
+
+/* ========== SCREENS ========== */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ========== LOGIN ========== */
+#screen-login {
+  align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #071f12 0%, #0f3d24 40%, #1a6b45 100%);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+#screen-login::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(184,146,42,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(26,107,69,0.3) 0%, transparent 50%);
+}
+#screen-login::after {
+  content: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ';
+  font-family: 'Amiri', serif;
+  position: absolute; top: 2rem; left: 50%; transform: translateX(-50%);
+  font-size: 18px; color: rgba(255,255,255,0.15); white-space: nowrap;
+}
+.login-card {
+  background: white; border-radius: 20px;
+  padding: 2.5rem 2rem; width: 100%; max-width: 420px;
+  box-shadow: var(--shadow-lg); position: relative; z-index: 1;
+}
+.login-emblem {
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.5rem; gap: 12px;
+}
+.login-emblem-icon {
+  width: 56px; height: 56px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Amiri', serif; font-size: 26px; color: white;
+  box-shadow: 0 4px 12px rgba(26,107,69,0.3);
+}
+.login-emblem-text { text-align: left; }
+.login-emblem-title { font-size: 20px; font-weight: 800; color: var(--gray-900); letter-spacing: -0.5px; }
+.login-emblem-sub { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+.admin-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--gold-light); border: 1px solid var(--gold);
+  color: var(--gold-dark); font-size: 11px; font-weight: 700;
+  padding: 4px 10px; border-radius: 99px; margin-bottom: 1.5rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+.form-group { margin-bottom: 1rem; }
+.form-group label { font-size: 12px; font-weight: 700; color: var(--gray-600); display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.04em; }
+.form-group input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+  font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-900); outline: none; transition: all 0.2s;
+}
+.form-group input:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,107,69,0.08); }
+
+.btn-login {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+  color: white; border: none; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer; transition: all 0.2s; margin-top: 6px;
+  box-shadow: 0 4px 12px rgba(26,107,69,0.25);
+}
+.btn-login:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(26,107,69,0.3); }
+.btn-login:active { transform: scale(0.99); }
+.btn-login:disabled { background: var(--gray-300); box-shadow: none; cursor: not-allowed; transform: none; }
+
+.alert { padding: 10px 14px; border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 1rem; display: none; }
+.alert.error { background: var(--danger-light); color: var(--danger); border: 1px solid #fca5a5; display: block; }
+.alert.success { background: var(--green-light); color: var(--green-dark); border: 1px solid #86efac; display: block; }
+
+/* ========== LAYOUT ========== */
+#screen-dashboard { flex-direction: row; }
+
+/* Sidebar */
+.sidebar {
+  width: 240px; min-width: 240px; background: var(--gray-900);
+  display: flex; flex-direction: column; min-height: 100vh;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.sidebar-header {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.sidebar-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.sidebar-logo-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: var(--green); display: flex; align-items: center; justify-content: center;
+  font-family: 'Amiri', serif; font-size: 18px; color: white;
+}
+.sidebar-logo-name { font-size: 15px; font-weight: 800; color: white; letter-spacing: -0.3px; }
+.sidebar-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(184,146,42,0.15); border: 1px solid rgba(184,146,42,0.3);
+  color: var(--gold); font-size: 10px; font-weight: 700;
+  padding: 3px 8px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+.sidebar-user {
+  margin: 1rem 1.25rem;
+  background: rgba(255,255,255,0.05); border-radius: var(--radius-sm);
+  padding: 10px 12px; display: flex; align-items: center; gap: 10px;
+}
+.sidebar-user-av {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--green); color: white; font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.sidebar-user-name { font-size: 12px; font-weight: 600; color: white; }
+.sidebar-user-role { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+.sidebar-nav { flex: 1; padding: 0.5rem 0.75rem; }
+.nav-section-title { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 0.08em; padding: 12px 8px 6px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.55);
+  cursor: pointer; transition: all 0.15s; margin-bottom: 2px;
+  border: none; background: none; width: 100%; text-align: left; font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+.nav-item.active { background: var(--green); color: white; font-weight: 600; }
+.nav-item-icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-count { margin-left: auto; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+.nav-item.active .nav-count { background: rgba(255,255,255,0.2); color: white; }
+
+.sidebar-footer {
+  padding: 1rem 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.btn-logout-side {
+  width: 100%; padding: 9px 10px;
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.2);
+  color: #fca5a5; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; transition: all 0.15s;
+}
+.btn-logout-side:hover { background: rgba(220,38,38,0.2); }
+
+/* Main Content */
+.main-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+/* Top bar */
+.topbar {
+  background: white; border-bottom: 1px solid var(--gray-200);
+  padding: 0 1.5rem; height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 10;
+}
+.topbar-title { font-size: 16px; font-weight: 700; color: var(--gray-900); }
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+
+.page { padding: 1.5rem; flex: 1; }
+
+/* ========== STATS ========== */
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 1.5rem; }
+.stat-card {
+  background: white; border-radius: var(--radius); padding: 1.25rem;
+  box-shadow: var(--shadow); border: 1px solid var(--gray-100);
+  display: flex; align-items: center; gap: 14px;
+}
+.stat-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.stat-icon.green { background: var(--green-light); }
+.stat-icon.gold { background: var(--gold-light); }
+.stat-icon.blue { background: var(--blue-light); }
+.stat-icon.gray { background: var(--gray-100); }
+.stat-info {}
+.stat-value { font-size: 24px; font-weight: 800; color: var(--gray-900); letter-spacing: -0.5px; }
+.stat-label { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+/* ========== CARD ========== */
+.card {
+  background: white; border-radius: var(--radius); border: 1px solid var(--gray-200);
+  box-shadow: var(--shadow); margin-bottom: 1.25rem; overflow: hidden;
+}
+.card-header {
+  padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-100);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.card-title { font-size: 14px; font-weight: 700; color: var(--gray-900); display: flex; align-items: center; gap: 8px; }
+.card-body { padding: 1.25rem; }
+
+/* ========== BUTTONS ========== */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600; font-family: 'Plus Jakarta Sans', sans-serif;
+  cursor: pointer; border: none; transition: all 0.15s;
+}
+.btn-green { background: var(--green); color: white; }
+.btn-green:hover { background: var(--green-dark); }
+.btn-outline { background: white; color: var(--gray-700); border: 1.5px solid var(--gray-200); }
+.btn-outline:hover { border-color: var(--gray-400); background: var(--gray-50); }
+.btn-danger { background: var(--danger-light); color: var(--danger); border: 1px solid #fca5a5; }
+.btn-danger:hover { background: #fee2e2; }
+.btn-gold { background: var(--gold-light); color: var(--gold-dark); border: 1px solid var(--gold); }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+
+/* ========== SEARCH ========== */
+.search-wrap { position: relative; }
+.search-wrap input {
+  padding: 8px 12px 8px 36px; border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm); font-size: 13px; font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-900); outline: none; width: 220px; transition: all 0.2s;
+}
+.search-wrap input:focus { border-color: var(--green); width: 260px; }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 14px; color: var(--gray-400); pointer-events: none; }
+
+/* ========== TABLE ========== */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead th {
+  padding: 10px 14px; text-align: left;
+  font-size: 11px; font-weight: 700; color: var(--gray-400);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  background: var(--gray-50); border-bottom: 1px solid var(--gray-200);
+  white-space: nowrap;
+}
+tbody td { padding: 12px 14px; border-bottom: 1px solid var(--gray-100); color: var(--gray-700); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover { background: var(--gray-50); }
+
+.badge {
+  display: inline-flex; align-items: center; padding: 3px 9px;
+  border-radius: 99px; font-size: 11px; font-weight: 700; white-space: nowrap;
+}
+.badge-green { background: var(--green-light); color: var(--green); }
+.badge-gold { background: var(--gold-light); color: var(--gold-dark); }
+.badge-blue { background: var(--blue-light); color: var(--blue); }
+.badge-gray { background: var(--gray-100); color: var(--gray-500); }
+.badge-red { background: var(--danger-light); color: var(--danger); }
+
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--green-light); color: var(--green);
+  font-size: 12px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+
+/* ========== MODAL ========== */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(15,23,42,0.5);
+  display: none; align-items: center; justify-content: center;
+  z-index: 200; padding: 1rem; backdrop-filter: blur(2px);
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; border-radius: var(--radius-lg); width: 100%; max-width: 520px;
+  box-shadow: var(--shadow-lg); animation: modalIn 0.2s ease;
+  max-height: 90vh; overflow-y: auto;
+}
+@keyframes modalIn { from { opacity:0; transform: scale(0.96) translateY(8px); } to { opacity:1; transform: none; } }
+.modal-header {
+  padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--gray-100);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title { font-size: 16px; font-weight: 700; color: var(--gray-900); }
+.modal-close {
+  width: 28px; height: 28px; border-radius: 6px; border: none;
+  background: var(--gray-100); color: var(--gray-500); font-size: 16px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--gray-200); }
+.modal-body { padding: 1.5rem; }
+.modal-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--gray-100); display: flex; gap: 8px; justify-content: flex-end; }
+
+.mfield { margin-bottom: 1rem; }
+.mfield label { font-size: 12px; font-weight: 700; color: var(--gray-600); display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.04em; }
+.mfield input, .mfield select, .mfield textarea {
+  width: 100%; padding: 10px 12px;
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+  font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--gray-900); outline: none; transition: all 0.2s; background: white;
+}
+.mfield input:focus, .mfield select:focus, .mfield textarea:focus {
+  border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,107,69,0.06);
+}
+.mfield-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mfield textarea { min-height: 80px; resize: vertical; }
+.mfield-hint { font-size: 11px; color: var(--gray-400); margin-top: 4px; }
+
+/* ========== CONFIRM MODAL ========== */
+.confirm-modal {
+  background: white; border-radius: var(--radius-lg); width: 100%; max-width: 380px;
+  box-shadow: var(--shadow-lg); padding: 1.75rem; text-align: center;
+  animation: modalIn 0.2s ease;
+}
+.confirm-icon { font-size: 40px; margin-bottom: 12px; }
+.confirm-title { font-size: 17px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+.confirm-desc { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 1.5rem; }
+.confirm-actions { display: flex; gap: 10px; justify-content: center; }
+
+/* ========== EMPTY / LOADING ========== */
+.empty { text-align: center; padding: 3rem 1rem; color: var(--gray-400); }
+.empty-icon { font-size: 36px; margin-bottom: 10px; }
+.empty-text { font-size: 14px; }
+.loading { display: flex; align-items: center; justify-content: center; padding: 3rem; gap: 10px; color: var(--gray-400); font-size: 13px; }
+.spinner { width: 20px; height: 20px; border: 2px solid var(--gray-200); border-top-color: var(--green); border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ========== TOAST ========== */
+.toast {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  padding: 12px 18px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+  box-shadow: var(--shadow-lg); z-index: 999;
+  transform: translateY(80px); opacity: 0; transition: all 0.3s;
+  display: flex; align-items: center; gap: 8px; max-width: 320px;
+}
+.toast.show { transform: none; opacity: 1; }
+.toast.success { background: var(--green); color: white; }
+.toast.error { background: var(--danger); color: white; }
+.toast.info { background: var(--gray-900); color: white; }
+
+/* Import area */
+.import-area {
+  border: 2px dashed var(--gray-200); border-radius: var(--radius);
+  padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s;
+  background: var(--gray-50);
+}
+.import-area:hover { border-color: var(--green); background: var(--green-light); }
+.import-area.dragover { border-color: var(--green); background: var(--green-light); }
+
+.pagination { display: flex; align-items: center; gap: 6px; justify-content: center; padding: 1rem; border-top: 1px solid var(--gray-100); }
+.page-btn { width: 32px; height: 32px; border-radius: 6px; border: 1.5px solid var(--gray-200); background: white; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gray-700); transition: all 0.15s; }
+.page-btn:hover { border-color: var(--green); color: var(--green); }
+.page-btn.active { background: var(--green); border-color: var(--green); color: white; }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .mfield-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="screen-login" class="screen active">
+  <div class="login-card">
+    <div class="login-emblem">
+      <div class="login-emblem-icon">ط</div>
+      <div class="login-emblem-text">
+        <div class="login-emblem-title">SiTahfidz</div>
+        <div class="login-emblem-sub">SD Islam Bunayya · Kota Pagar Alam</div>
+      </div>
+    </div>
+    <div class="admin-badge">🔐 Admin Panel</div>
+
+    <div id="login-alert" class="alert"></div>
+
+    <div id="login-email-step">
+      <div class="form-group">
+        <label>Email Admin</label>
+        <input type="email" id="inp-login-email" placeholder="admin@sdibunayya.sch.id" autocomplete="email">
+      </div>
+      <button class="btn-login" id="btn-kirim-link" onclick="kirimMagicLink()">🔗 Kirim Link Login</button>
+      <div style="margin-top:1rem; font-size:12px; color:var(--gray-400); background:var(--gray-50); padding:10px 12px; border-radius:var(--radius-sm); line-height:1.6;">
+        <strong style="color:var(--gray-600)">✉️ Login tanpa password:</strong> Link login akan dikirim ke email Anda. Klik link tersebut untuk masuk sebagai Admin.
+      </div>
+    </div>
+
+    <div id="login-cek-email" style="display:none; text-align:center;">
+      <div style="font-size:48px; margin-bottom:10px;">📬</div>
+      <div style="font-size:15px; font-weight:700; margin-bottom:6px;">Cek inbox Anda!</div>
+      <div style="font-size:13px; color:var(--gray-400); line-height:1.6; margin-bottom:1.25rem;">
+        Link login telah dikirim ke<br><strong id="email-sent-to" style="color:var(--green)"></strong>
+      </div>
+      <button class="btn-login" onclick="backLogin()">⬅ Ganti email / Kirim ulang</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="screen-dashboard" class="screen">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon">ط</div>
+        <div class="sidebar-logo-name">SiTahfidz</div>
+      </div>
+      <div class="sidebar-badge">🛡️ Admin Panel</div>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="sidebar-user-av" id="side-av">A</div>
+      <div>
+        <div class="sidebar-user-name" id="side-name">Admin</div>
+        <div class="sidebar-user-role">Administrator</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-title">Dashboard</div>
+      <button class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+        <span class="nav-item-icon">🏠</span> Beranda
+      </button>
+
+      <div class="nav-section-title">Data Master</div>
+      <button class="nav-item" onclick="showPage('kelas')" id="nav-kelas">
+        <span class="nav-item-icon">🏫</span> Kelas
+        <span class="nav-count" id="count-kelas">—</span>
+      </button>
+      <button class="nav-item" onclick="showPage('siswa')" id="nav-siswa">
+        <span class="nav-item-icon">👦</span> Siswa
+        <span class="nav-count" id="count-siswa">—</span>
+      </button>
+      <button class="nav-item" onclick="showPage('guru')" id="nav-guru">
+        <span class="nav-item-icon">👩‍🏫</span> Guru
+        <span class="nav-count" id="count-guru">—</span>
+      </button>
+      <button class="nav-item" onclick="showPage('wali')" id="nav-wali">
+        <span class="nav-item-icon">👨‍👩‍👦</span> Wali Murid
+        <span class="nav-count" id="count-wali">—</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout-side" onclick="logout()">🚪 Keluar</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Beranda</div>
+      <div class="topbar-actions" id="topbar-actions"></div>
+    </div>
+
+    <!-- ===== PAGE: DASHBOARD ===== -->
+    <div class="page" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon green">🏫</div>
+          <div class="stat-info"><div class="stat-value" id="s-kelas">—</div><div class="stat-label">Total Kelas</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">👦</div>
+          <div class="stat-info"><div class="stat-value" id="s-siswa">—</div><div class="stat-label">Total Siswa Aktif</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold">👩‍🏫</div>
+          <div class="stat-info"><div class="stat-value" id="s-guru">—</div><div class="stat-label">Guru Tahfidz</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gray">👨‍👩‍👦</div>
+          <div class="stat-info"><div class="stat-value" id="s-wali">—</div><div class="stat-label">Wali Murid Terdaftar</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-title">📋 Kelas Terdaftar</div></div>
+        <div class="card-body" id="dash-kelas-list"><div class="loading"><div class="spinner"></div> Memuat...</div></div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: KELAS ===== -->
+    <div class="page" id="page-kelas" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🏫 Manajemen Kelas</div>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div class="table-wrap">
+            <table id="tbl-kelas">
+              <thead><tr><th>#</th><th>Nama Kelas</th><th>Tingkat</th><th>Wali Kelas</th><th>Jml Siswa</th><th>Aksi</th></tr></thead>
+              <tbody id="tbody-kelas"><tr><td colspan="6"><div class="loading"><div class="spinner"></div> Memuat...</div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: SISWA ===== -->
+    <div class="page" id="page-siswa" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">👦 Manajemen Siswa</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <div class="search-wrap">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="search-siswa" placeholder="Cari nama / NIS..." oninput="filterSiswa()">
+            </div>
+            <select id="filter-kelas-siswa" onchange="filterSiswa()" style="padding:8px 10px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;">
+              <option value="">Semua Kelas</option>
+            </select>
+          </div>
+        </div>
+        <div style="padding:0">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Nama Siswa</th><th>NIS</th><th>Kelas</th><th>JK</th><th>Status</th><th>Aksi</th></tr></thead>
+              <tbody id="tbody-siswa"><tr><td colspan="7"><div class="loading"><div class="spinner"></div> Memuat...</div></td></tr></tbody>
+            </table>
+          </div>
+          <div id="pagination-siswa" class="pagination"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: GURU ===== -->
+    <div class="page" id="page-guru" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">👩‍🏫 Manajemen Guru</div>
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-guru" placeholder="Cari nama / email..." oninput="filterGuru()">
+          </div>
+        </div>
+        <div style="padding:0">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Nama Guru</th><th>Email</th><th>NIP</th><th>Spesialisasi</th><th>Status</th><th>Aksi</th></tr></thead>
+              <tbody id="tbody-guru"><tr><td colspan="7"><div class="loading"><div class="spinner"></div> Memuat...</div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PAGE: WALI ===== -->
+    <div class="page" id="page-wali" style="display:none">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">👨‍👩‍👦 Manajemen Wali Murid</div>
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-wali" placeholder="Cari nama / email..." oninput="filterWali()">
+          </div>
+        </div>
+        <div style="padding:0">
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>#</th><th>Nama Wali</th><th>Email</th><th>Siswa</th><th>Aksi</th></tr></thead>
+              <tbody id="tbody-wali"><tr><td colspan="5"><div class="loading"><div class="spinner"></div> Memuat...</div></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /screen-dashboard -->
+
+<!-- ===== MODAL: KELAS ===== -->
+<div class="modal-overlay" id="modal-kelas">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-kelas-title">Tambah Kelas</div>
+      <button class="modal-close" onclick="closeModal('modal-kelas')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="kelas-id">
+      <div class="mfield-row">
+        <div class="mfield">
+          <label>Nama Kelas *</label>
+          <input type="text" id="kelas-nama" placeholder="Contoh: 1A, 2B, 3C">
+          <div class="mfield-hint">Nama singkat kelas</div>
+        </div>
+        <div class="mfield">
+          <label>Tingkat *</label>
+          <select id="kelas-tingkat">
+            <option value="">— Pilih —</option>
+            <option value="1">Kelas 1</option>
+            <option value="2">Kelas 2</option>
+            <option value="3">Kelas 3</option>
+            <option value="4">Kelas 4</option>
+            <option value="5">Kelas 5</option>
+            <option value="6">Kelas 6</option>
+          </select>
+        </div>
+      </div>
+      <div class="mfield">
+        <label>Wali Kelas</label>
+        <input type="text" id="kelas-walikelas" placeholder="Nama wali kelas">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-kelas')">Batal</button>
+      <button class="btn btn-green" onclick="simpanKelas()">💾 Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: SISWA ===== -->
+<div class="modal-overlay" id="modal-siswa">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-siswa-title">Tambah Siswa</div>
+      <button class="modal-close" onclick="closeModal('modal-siswa')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="siswa-id">
+      <div class="mfield-row">
+        <div class="mfield">
+          <label>Nama Lengkap *</label>
+          <input type="text" id="siswa-nama" placeholder="Nama lengkap siswa">
+        </div>
+        <div class="mfield">
+          <label>NIS *</label>
+          <input type="text" id="siswa-nis" placeholder="Nomor Induk Siswa">
+        </div>
+      </div>
+      <div class="mfield-row">
+        <div class="mfield">
+          <label>Kelas *</label>
+          <select id="siswa-kelas">
+            <option value="">— Pilih Kelas —</option>
+          </select>
+        </div>
+        <div class="mfield">
+          <label>Jenis Kelamin</label>
+          <select id="siswa-jk">
+            <option value="">— Pilih —</option>
+            <option value="L">Laki-laki</option>
+            <option value="P">Perempuan</option>
+          </select>
+        </div>
+      </div>
+      <div class="mfield">
+        <label>Tanggal Lahir</label>
+        <input type="date" id="siswa-tgl-lahir">
+      </div>
+      <div class="mfield">
+        <label>Status</label>
+        <select id="siswa-aktif">
+          <option value="true">Aktif</option>
+          <option value="false">Tidak Aktif</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-siswa')">Batal</button>
+      <button class="btn btn-green" onclick="simpanSiswa()">💾 Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: GURU ===== -->
+<div class="modal-overlay" id="modal-guru">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-guru-title">Tambah Guru</div>
+      <button class="modal-close" onclick="closeModal('modal-guru')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="guru-profile-id">
+      <div class="mfield">
+        <label>Email Guru *</label>
+        <input type="email" id="guru-email" placeholder="email@gmail.com">
+        <div class="mfield-hint">Guru akan login menggunakan email ini via Magic Link</div>
+      </div>
+      <div class="mfield-row">
+        <div class="mfield">
+          <label>Nama Lengkap *</label>
+          <input type="text" id="guru-nama" placeholder="Nama guru">
+        </div>
+        <div class="mfield">
+          <label>NIP</label>
+          <input type="text" id="guru-nip" placeholder="NIP (opsional)">
+        </div>
+      </div>
+      <div class="mfield">
+        <label>Spesialisasi</label>
+        <select id="guru-spesialisasi">
+          <option value="iqro">Iqro</option>
+          <option value="tahfidz">Tahfidz</option>
+          <option value="keduanya">Keduanya</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>No. HP</label>
+        <input type="text" id="guru-hp" placeholder="08xx-xxxx-xxxx">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-guru')">Batal</button>
+      <button class="btn btn-green" onclick="simpanGuru()">💾 Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: WALI-SISWA ===== -->
+<div class="modal-overlay" id="modal-link-wali">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🔗 Hubungkan Wali ke Siswa</div>
+      <button class="modal-close" onclick="closeModal('modal-link-wali')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="link-wali-id">
+      <div class="mfield">
+        <label>Wali Murid</label>
+        <input type="text" id="link-wali-nama" readonly style="background:var(--gray-50)">
+      </div>
+      <div class="mfield">
+        <label>Pilih Siswa *</label>
+        <select id="link-siswa-id">
+          <option value="">— Pilih Siswa —</option>
+        </select>
+      </div>
+      <div class="mfield">
+        <label>Hubungan</label>
+        <select id="link-hubungan">
+          <option value="orang_tua">Orang Tua</option>
+          <option value="ayah">Ayah</option>
+          <option value="ibu">Ibu</option>
+          <option value="wali">Wali</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-link-wali')">Batal</button>
+      <button class="btn btn-green" onclick="simpanLinkWali()">🔗 Hubungkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONFIRM MODAL ===== -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="confirm-modal">
+    <div class="confirm-icon" id="confirm-icon">⚠️</div>
+    <div class="confirm-title" id="confirm-title">Yakin?</div>
+    <div class="confirm-desc" id="confirm-desc"></div>
+    <div class="confirm-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-confirm')">Batal</button>
+      <button class="btn btn-danger" id="confirm-ok-btn">Hapus</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPA_URL = 'https://zghmvyjizzyjmicflmmn.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnaG12eWppenp5am1pY2ZsbW1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NjA0MDksImV4cCI6MjA5NjIzNjQwOX0.OpcWFPTv_32A0GRlWkvBS_rWgmm-Xv4iMwVREhfuxGA';
+
+let currentUser = null, token = null;
+let allSiswa = [], allGuru = [], allWali = [], allKelas = [];
+let siswaPage = 1; const PAGE_SIZE = 20;
+
+// ===== API =====
+async function api(path, opts = {}) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, {
+    ...opts,
+    headers: {
+      'apikey': SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...(opts.headers || {})
+    }
+  });
+  if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.message || e.hint || `HTTP ${r.status}`); }
+  const t = await r.text(); return t ? JSON.parse(t) : [];
+}
+async function authPost(path, body) {
+  const r = await fetch(`${SUPA_URL}/auth/v1/${path}`, {
+    method: 'POST',
+    headers: { 'apikey': SUPA_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+function saveToken(t, r) { localStorage.setItem('admin_token', t); if(r) localStorage.setItem('admin_refresh', r); }
+function loadToken() { return localStorage.getItem('admin_token') || ''; }
+function clearTokens() { localStorage.removeItem('admin_token'); localStorage.removeItem('admin_refresh'); }
+
+// ===== INIT =====
+window.addEventListener('load', async () => {
+  const hash = window.location.hash;
+  if (hash.includes('access_token')) {
+    const p = new URLSearchParams(hash.replace('#',''));
+    const at = p.get('access_token'), rt = p.get('refresh_token');
+    if (at) { saveToken(at, rt); window.history.replaceState({}, '', location.pathname); }
+  }
+  token = loadToken();
+  if (token) {
+    const u = await fetch(`${SUPA_URL}/auth/v1/user`, { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${token}` }}).then(r => r.ok ? r.json() : null).catch(() => null);
+    if (u?.id) {
+      // Check admin role
+      const profile = await api(`profiles?id=eq.${u.id}&select=role,full_name`).catch(() => []);
+      if (profile[0]?.role === 'admin') {
+        currentUser = { ...u, ...profile[0] };
+        return enterDashboard();
+      } else if (profile.length === 0) {
+        // First time login — auto-set as admin if no admins exist
+        const admins = await api('profiles?role=eq.admin&select=id').catch(() => []);
+        if (admins.length === 0) {
+          await api('profiles', { method: 'POST', body: JSON.stringify({ id: u.id, full_name: u.user_metadata?.full_name || u.email, role: 'admin' }) }).catch(() => {});
+          currentUser = { ...u, role: 'admin', full_name: u.email };
+          return enterDashboard();
+        }
+      }
+      showErr('Akun ini tidak memiliki akses Admin.');
+      clearTokens(); token = null;
+    }
+  }
+  switchScreen('login');
+});
+
+// ===== LOGIN =====
+async function kirimMagicLink() {
+  const email = document.getElementById('inp-login-email').value.trim();
+  if (!email || !email.includes('@')) return showErr('Masukkan email yang valid.');
+  const btn = document.getElementById('btn-kirim-link');
+  btn.disabled = true; btn.textContent = 'Mengirim...';
+  hideErr();
+  const res = await authPost('magiclink', { email, options: { emailRedirectTo: location.href.split('#')[0] }});
+  btn.disabled = false; btn.textContent = '🔗 Kirim Link Login';
+  if (res.error) return showErr(res.error.message || 'Gagal kirim link.');
+  document.getElementById('email-sent-to').textContent = email;
+  document.getElementById('login-email-step').style.display = 'none';
+  document.getElementById('login-cek-email').style.display = 'block';
+}
+function backLogin() {
+  document.getElementById('login-email-step').style.display = 'block';
+  document.getElementById('login-cek-email').style.display = 'none';
+  hideErr();
+}
+function showErr(m) {
+  const el = document.getElementById('login-alert');
+  el.className = 'alert error'; el.textContent = m;
+}
+function hideErr() {
+  const el = document.getElementById('login-alert');
+  el.className = 'alert'; el.textContent = '';
+}
+async function logout() {
+  clearTokens(); currentUser = null; token = null;
+  switchScreen('login');
+}
+
+// ===== DASHBOARD =====
+async function enterDashboard() {
+  switchScreen('dashboard');
+  const name = currentUser.full_name || currentUser.email || 'Admin';
+  document.getElementById('side-name').textContent = name.split(' ').slice(0,2).join(' ');
+  document.getElementById('side-av').textContent = name[0].toUpperCase();
+  await loadAllData();
+  showPage('dashboard');
+}
+
+async function loadAllData() {
+  const [k, s, g, w] = await Promise.all([
+    api('kelas?select=id,nama_kelas,tingkat,wali_kelas&order=tingkat,nama_kelas').catch(() => []),
+    api('siswa?select=id,nis,nama_lengkap,kelas_id,jenis_kelamin,tanggal_lahir,aktif&order=nama_lengkap&limit=500').catch(() => []),
+    api('profiles?role=eq.guru&select=id,full_name,phone&order=full_name').catch(() => []),
+    api('profiles?role=eq.wali&select=id,full_name,phone&order=full_name').catch(() => [])
+  ]);
+  allKelas = k; allSiswa = s; allGuru = g; allWali = w;
+
+  document.getElementById('count-kelas').textContent = k.length;
+  document.getElementById('count-siswa').textContent = s.filter(x=>x.aktif).length;
+  document.getElementById('count-guru').textContent = g.length;
+  document.getElementById('count-wali').textContent = w.length;
+  document.getElementById('s-kelas').textContent = k.length;
+  document.getElementById('s-siswa').textContent = s.filter(x=>x.aktif).length;
+  document.getElementById('s-guru').textContent = g.length;
+  document.getElementById('s-wali').textContent = w.length;
+
+  // fill kelas dropdowns
+  ['filter-kelas-siswa','siswa-kelas'].forEach(id => {
+    const sel = document.getElementById(id);
+    const first = sel.options[0];
+    sel.innerHTML = ''; sel.appendChild(first);
+    k.forEach(kl => {
+      const o = new Option(`Kelas ${kl.nama_kelas}`, kl.id);
+      sel.appendChild(o);
+    });
+  });
+}
+
+// ===== PAGES =====
+function showPage(name) {
+  ['dashboard','kelas','siswa','guru','wali'].forEach(p => {
+    document.getElementById(`page-${p}`).style.display = p===name ? 'block' : 'none';
+    const nav = document.getElementById(`nav-${p}`);
+    if (nav) nav.className = 'nav-item' + (p===name ? ' active' : '');
+  });
+  const titles = { dashboard:'Beranda', kelas:'Manajemen Kelas', siswa:'Manajemen Siswa', guru:'Manajemen Guru', wali:'Manajemen Wali Murid' };
+  document.getElementById('topbar-title').textContent = titles[name];
+
+  const actions = document.getElementById('topbar-actions');
+  actions.innerHTML = '';
+  if (name === 'kelas') {
+    actions.innerHTML = `<button class="btn btn-green" onclick="openModalKelas()">➕ Tambah Kelas</button>`;
+    renderKelas();
+  } else if (name === 'siswa') {
+    actions.innerHTML = `<button class="btn btn-green" onclick="openModalSiswa()">➕ Tambah Siswa</button>`;
+    siswaPage = 1; renderSiswa();
+  } else if (name === 'guru') {
+    actions.innerHTML = `<button class="btn btn-green" onclick="openModalGuru()">➕ Tambah Guru</button>`;
+    renderGuru();
+  } else if (name === 'wali') {
+    renderWali();
+  } else if (name === 'dashboard') {
+    renderDashKelas();
+  }
+}
+
+// ===== KELAS =====
+function renderKelas() {
+  const tbody = document.getElementById('tbody-kelas');
+  if (!allKelas.length) { tbody.innerHTML = `<tr><td colspan="6"><div class="empty"><div class="empty-icon">🏫</div><div class="empty-text">Belum ada kelas. Tambah kelas dulu.</div></div></td></tr>`; return; }
+  tbody.innerHTML = allKelas.map((k,i) => {
+    const jumlah = allSiswa.filter(s => s.kelas_id == k.id && s.aktif).length;
+    return `<tr>
+      <td>${i+1}</td>
+      <td><strong>Kelas ${k.nama_kelas}</strong></td>
+      <td><span class="badge badge-blue">Tingkat ${k.tingkat}</span></td>
+      <td>${k.wali_kelas || '<span style="color:var(--gray-400)">—</span>'}</td>
+      <td><span class="badge badge-green">${jumlah} siswa</span></td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="editKelas(${k.id})">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmHapus('kelas',${k.id},'Kelas ${k.nama_kelas}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function renderDashKelas() {
+  const c = document.getElementById('dash-kelas-list');
+  if (!allKelas.length) { c.innerHTML = `<div class="empty"><div class="empty-icon">🏫</div><div class="empty-text">Belum ada kelas terdaftar.</div></div>`; return; }
+  c.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px">${allKelas.map(k=>{
+    const n = allSiswa.filter(s=>s.kelas_id==k.id&&s.aktif).length;
+    return `<div style="background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px 16px">
+      <div style="font-size:18px;font-weight:800;color:var(--green);margin-bottom:4px">Kelas ${k.nama_kelas}</div>
+      <div style="font-size:12px;color:var(--gray-400)">Tingkat ${k.tingkat} · ${n} siswa aktif</div>
+      ${k.wali_kelas ? `<div style="font-size:11px;color:var(--gray-500);margin-top:4px">👩‍🏫 ${k.wali_kelas}</div>` : ''}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function openModalKelas(id) {
+  document.getElementById('kelas-id').value = '';
+  document.getElementById('kelas-nama').value = '';
+  document.getElementById('kelas-tingkat').value = '';
+  document.getElementById('kelas-walikelas').value = '';
+  document.getElementById('modal-kelas-title').textContent = 'Tambah Kelas';
+  openModal('modal-kelas');
+}
+function editKelas(id) {
+  const k = allKelas.find(x=>x.id==id);
+  if (!k) return;
+  document.getElementById('kelas-id').value = k.id;
+  document.getElementById('kelas-nama').value = k.nama_kelas;
+  document.getElementById('kelas-tingkat').value = k.tingkat;
+  document.getElementById('kelas-walikelas').value = k.wali_kelas || '';
+  document.getElementById('modal-kelas-title').textContent = 'Edit Kelas';
+  openModal('modal-kelas');
+}
+async function simpanKelas() {
+  const id = document.getElementById('kelas-id').value;
+  const nama = document.getElementById('kelas-nama').value.trim();
+  const tingkat = document.getElementById('kelas-tingkat').value;
+  const wali = document.getElementById('kelas-walikelas').value.trim();
+  if (!nama || !tingkat) return toast('Nama kelas dan tingkat wajib diisi.','error');
+  const body = { nama_kelas: nama, tingkat: parseInt(tingkat), wali_kelas: wali || null };
+  try {
+    if (id) await api(`kelas?id=eq.${id}`, { method:'PATCH', body: JSON.stringify(body) });
+    else await api('kelas', { method:'POST', body: JSON.stringify(body) });
+    closeModal('modal-kelas');
+    await loadAllData();
+    renderKelas();
+    renderDashKelas();
+    toast(id ? '✅ Kelas berhasil diperbarui!' : '✅ Kelas berhasil ditambahkan!','success');
+  } catch(e) { toast('Gagal: '+e.message,'error'); }
+}
+
+// ===== SISWA =====
+function filterSiswa() { siswaPage=1; renderSiswa(); }
+function renderSiswa() {
+  const q = document.getElementById('search-siswa').value.toLowerCase();
+  const kId = document.getElementById('filter-kelas-siswa').value;
+  let filtered = allSiswa.filter(s =>
+    (!q || s.nama_lengkap.toLowerCase().includes(q) || (s.nis||'').toLowerCase().includes(q)) &&
+    (!kId || s.kelas_id == kId)
+  );
+  const total = filtered.length;
+  const pages = Math.ceil(total / PAGE_SIZE);
+  const start = (siswaPage-1)*PAGE_SIZE;
+  const paged = filtered.slice(start, start+PAGE_SIZE);
+
+  const tbody = document.getElementById('tbody-siswa');
+  if (!filtered.length) { tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-icon">👦</div><div class="empty-text">Tidak ada siswa ditemukan.</div></div></td></tr>`; }
+  else {
+    tbody.innerHTML = paged.map((s,i) => {
+      const kelas = allKelas.find(k=>k.id==s.kelas_id);
+      const inisial = s.nama_lengkap.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase();
+      return `<tr>
+        <td>${start+i+1}</td>
+        <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar">${inisial}</div><div><div style="font-weight:600">${s.nama_lengkap}</div></div></div></td>
+        <td><code style="font-size:12px;background:var(--gray-100);padding:2px 6px;border-radius:4px">${s.nis||'—'}</code></td>
+        <td>${kelas ? `Kelas ${kelas.nama_kelas}` : '<span style="color:var(--gray-400)">—</span>'}</td>
+        <td><span class="badge ${s.jenis_kelamin==='L'?'badge-blue':'badge-gold'}">${s.jenis_kelamin==='L'?'L':'P'}</span></td>
+        <td><span class="badge ${s.aktif?'badge-green':'badge-gray'}">${s.aktif?'Aktif':'Non-aktif'}</span></td>
+        <td>
+          <button class="btn btn-outline btn-sm" onclick="editSiswa('${s.id}')">✏️ Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmHapus('siswa','${s.id}','${s.nama_lengkap}')">🗑️</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  // Pagination
+  const pag = document.getElementById('pagination-siswa');
+  if (pages <= 1) { pag.innerHTML=''; return; }
+  let html = `<button class="page-btn" onclick="goPage(${siswaPage-1})" ${siswaPage===1?'disabled':''}>‹</button>`;
+  for (let p=1; p<=pages; p++) {
+    if (p===1||p===pages||Math.abs(p-siswaPage)<=1) html+=`<button class="page-btn ${p===siswaPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+    else if (Math.abs(p-siswaPage)===2) html+=`<span style="color:var(--gray-400);font-size:13px">…</span>`;
+  }
+  html += `<button class="page-btn" onclick="goPage(${siswaPage+1})" ${siswaPage===pages?'disabled':''}>›</button>`;
+  pag.innerHTML = html;
+}
+function goPage(p) { siswaPage=p; renderSiswa(); }
+function openModalSiswa() {
+  document.getElementById('siswa-id').value='';
+  document.getElementById('siswa-nama').value='';
+  document.getElementById('siswa-nis').value='';
+  document.getElementById('siswa-kelas').value='';
+  document.getElementById('siswa-jk').value='';
+  document.getElementById('siswa-tgl-lahir').value='';
+  document.getElementById('siswa-aktif').value='true';
+  document.getElementById('modal-siswa-title').textContent='Tambah Siswa';
+  openModal('modal-siswa');
+}
+function editSiswa(id) {
+  const s = allSiswa.find(x=>x.id===id); if(!s) return;
+  document.getElementById('siswa-id').value=s.id;
+  document.getElementById('siswa-nama').value=s.nama_lengkap;
+  document.getElementById('siswa-nis').value=s.nis||'';
+  document.getElementById('siswa-kelas').value=s.kelas_id||'';
+  document.getElementById('siswa-jk').value=s.jenis_kelamin||'';
+  document.getElementById('siswa-tgl-lahir').value=s.tanggal_lahir||'';
+  document.getElementById('siswa-aktif').value=String(s.aktif);
+  document.getElementById('modal-siswa-title').textContent='Edit Siswa';
+  openModal('modal-siswa');
+}
+async function simpanSiswa() {
+  const id = document.getElementById('siswa-id').value;
+  const nama = document.getElementById('siswa-nama').value.trim();
+  const nis = document.getElementById('siswa-nis').value.trim();
+  const kelasId = document.getElementById('siswa-kelas').value;
+  const jk = document.getElementById('siswa-jk').value;
+  const tgl = document.getElementById('siswa-tgl-lahir').value;
+  const aktif = document.getElementById('siswa-aktif').value === 'true';
+  if (!nama||!nis) return toast('Nama dan NIS wajib diisi.','error');
+  const body = { nama_lengkap:nama, nis, kelas_id:kelasId||null, jenis_kelamin:jk||null, tanggal_lahir:tgl||null, aktif };
+  try {
+    if (id) await api(`siswa?id=eq.${id}`,{method:'PATCH',body:JSON.stringify(body)});
+    else await api('siswa',{method:'POST',body:JSON.stringify(body)});
+    closeModal('modal-siswa');
+    await loadAllData();
+    renderSiswa();
+    toast(id?'✅ Data siswa diperbarui!':'✅ Siswa berhasil ditambahkan!','success');
+  } catch(e) { toast('Gagal: '+e.message,'error'); }
+}
+
+// ===== GURU =====
+function filterGuru() { renderGuru(); }
+function renderGuru() {
+  const q = document.getElementById('search-guru').value.toLowerCase();
+  const filtered = allGuru.filter(g => !q || g.full_name.toLowerCase().includes(q));
+  const tbody = document.getElementById('tbody-guru');
+  if (!filtered.length) { tbody.innerHTML=`<tr><td colspan="7"><div class="empty"><div class="empty-icon">👩‍🏫</div><div class="empty-text">Belum ada guru terdaftar.</div></div></td></tr>`; return; }
+  // We'll need guru detail separately
+  loadGuruDetail(filtered, tbody);
+}
+async function loadGuruDetail(filtered, tbody) {
+  let guruDetail = [];
+  try { guruDetail = await api('guru?select=id,nip,spesialisasi'); } catch(e){}
+  tbody.innerHTML = filtered.map((g,i) => {
+    const d = guruDetail.find(x=>x.id===g.id)||{};
+    const spMap = {iqro:'Iqro',tahfidz:'Tahfidz',keduanya:'Iqro & Tahfidz'};
+    const inisial = g.full_name.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase();
+    return `<tr>
+      <td>${i+1}</td>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="background:var(--gold-light);color:var(--gold-dark)">${inisial}</div><strong>${g.full_name}</strong></div></td>
+      <td style="font-size:12px;color:var(--gray-500)">${g.id.substring(0,8)}…</td>
+      <td><code style="font-size:12px;background:var(--gray-100);padding:2px 6px;border-radius:4px">${d.nip||'—'}</code></td>
+      <td><span class="badge badge-green">${spMap[d.spesialisasi]||'—'}</span></td>
+      <td><span class="badge badge-blue">Aktif</span></td>
+      <td>
+        <button class="btn btn-danger btn-sm" onclick="confirmHapus('guru','${g.id}','${g.full_name}')">🗑️ Hapus</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function openModalGuru() {
+  ['guru-email','guru-nama','guru-nip','guru-hp'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('guru-spesialisasi').value='iqro';
+  document.getElementById('guru-profile-id').value='';
+  document.getElementById('modal-guru-title').textContent='Tambah Guru';
+  openModal('modal-guru');
+}
+async function simpanGuru() {
+  const email=document.getElementById('guru-email').value.trim();
+  const nama=document.getElementById('guru-nama').value.trim();
+  const nip=document.getElementById('guru-nip').value.trim();
+  const sp=document.getElementById('guru-spesialisasi').value;
+  const hp=document.getElementById('guru-hp').value.trim();
+  if(!email||!nama) return toast('Email dan nama wajib diisi.','error');
+
+  try {
+    // Invite user via admin invite (create profile manually)
+    // First check if profile exists
+    const exist = await api(`profiles?id=in.(select id from auth.users where email=eq.${encodeURIComponent(email)})&select=id`).catch(()=>[]);
+
+    // We store guru data — user will login via magic link and profile auto-created
+    // For now, create a placeholder profile entry via admin API
+    const res = await fetch(`${SUPA_URL}/auth/v1/admin/users`, {
+      method:'POST',
+      headers:{'apikey':SUPA_KEY,'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},
+      body: JSON.stringify({ email, email_confirm:true, user_metadata:{full_name:nama} })
+    });
+    const userData = await res.json();
+    if (userData.id) {
+      await api('profiles', {method:'POST', body:JSON.stringify({id:userData.id, full_name:nama, role:'guru', phone:hp||null})}).catch(()=>{});
+      await api('guru', {method:'POST', body:JSON.stringify({id:userData.id, nip:nip||null, spesialisasi:sp})}).catch(()=>{});
+    } else if (userData.msg || userData.message) {
+      throw new Error(userData.msg || userData.message);
+    }
+    closeModal('modal-guru');
+    await loadAllData();
+    renderGuru();
+    toast('✅ Guru berhasil ditambahkan! Mereka bisa login via Magic Link.','success');
+  } catch(e) { toast('Gagal: '+e.message,'error'); }
+}
+
+// ===== WALI =====
+function filterWali() { renderWali(); }
+async function renderWali() {
+  const q = document.getElementById('search-wali').value.toLowerCase();
+  const filtered = allWali.filter(w => !q || w.full_name.toLowerCase().includes(q));
+  const tbody = document.getElementById('tbody-wali');
+  if (!filtered.length) { tbody.innerHTML=`<tr><td colspan="5"><div class="empty"><div class="empty-icon">👨‍👩‍👦</div><div class="empty-text">Belum ada wali murid terdaftar.</div></div></td></tr>`; return; }
+
+  let links = [];
+  try { links = await api('wali_siswa?select=wali_id,siswa_id,hubungan,siswa(nama_lengkap)'); } catch(e){}
+
+  // fill dropdown siswa di modal link
+  const sel = document.getElementById('link-siswa-id');
+  const fo = sel.options[0];
+  sel.innerHTML=''; sel.appendChild(fo);
+  allSiswa.forEach(s=>{ const o=new Option(`${s.nama_lengkap} (${s.nis||'-'})`,s.id); sel.appendChild(o); });
+
+  tbody.innerHTML = filtered.map((w,i)=>{
+    const wLinks = links.filter(l=>l.wali_id===w.id);
+    const siswaNama = wLinks.map(l=>l.siswa?.nama_lengkap||'—').join(', ') || '<span style="color:var(--gray-400)">—</span>';
+    const inisial = w.full_name.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase();
+    return `<tr>
+      <td>${i+1}</td>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="background:var(--blue-light);color:var(--blue)">${inisial}</div><strong>${w.full_name}</strong></div></td>
+      <td style="font-size:12px;color:var(--gray-500)">${w.id.substring(0,8)}…</td>
+      <td style="max-width:200px;font-size:12px">${siswaNama}</td>
+      <td>
+        <button class="btn btn-gold btn-sm" onclick="openLinkWali('${w.id}','${w.full_name}')">🔗 Hubungkan Siswa</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmHapus('wali','${w.id}','${w.full_name}')">🗑️</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function openLinkWali(waliId, nama) {
+  document.getElementById('link-wali-id').value=waliId;
+  document.getElementById('link-wali-nama').value=nama;
+  document.getElementById('link-siswa-id').value='';
+  openModal('modal-link-wali');
+}
+async function simpanLinkWali() {
+  const waliId=document.getElementById('link-wali-id').value;
+  const siswaId=document.getElementById('link-siswa-id').value;
+  const hubungan=document.getElementById('link-hubungan').value;
+  if(!siswaId) return toast('Pilih siswa terlebih dahulu.','error');
+  try {
+    await api('wali_siswa',{method:'POST',body:JSON.stringify({wali_id:waliId,siswa_id:siswaId,hubungan})});
+    closeModal('modal-link-wali');
+    await loadAllData();
+    renderWali();
+    toast('✅ Wali berhasil dihubungkan ke siswa!','success');
+  } catch(e) { toast('Gagal: '+e.message,'error'); }
+}
+
+// ===== HAPUS =====
+function confirmHapus(tipe, id, nama) {
+  document.getElementById('confirm-title').textContent = `Hapus ${tipe === 'kelas' ? 'Kelas' : tipe === 'siswa' ? 'Siswa' : tipe === 'guru' ? 'Guru' : 'Wali'}?`;
+  document.getElementById('confirm-desc').textContent = `Data "${nama}" akan dihapus permanen dan tidak bisa dikembalikan.`;
+  document.getElementById('confirm-icon').textContent = '🗑️';
+  const btn = document.getElementById('confirm-ok-btn');
+  btn.onclick = async () => {
+    try {
+      if (tipe==='kelas') await api(`kelas?id=eq.${id}`,{method:'DELETE'});
+      else if (tipe==='siswa') await api(`siswa?id=eq.${id}`,{method:'DELETE'});
+      else if (tipe==='guru') { await api(`guru?id=eq.${id}`,{method:'DELETE'}); await api(`profiles?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({role:'wali'})}); }
+      else if (tipe==='wali') await api(`profiles?id=eq.${id}`,{method:'DELETE'});
+      closeModal('modal-confirm');
+      await loadAllData();
+      if (tipe==='kelas') renderKelas();
+      else if (tipe==='siswa') renderSiswa();
+      else if (tipe==='guru') renderGuru();
+      else renderWali();
+      toast('✅ Data berhasil dihapus.','success');
+    } catch(e) { toast('Gagal hapus: '+e.message,'error'); closeModal('modal-confirm'); }
+  };
+  openModal('modal-confirm');
+}
+
+// ===== MODAL UTILS =====
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if(e.target===m) closeModal(m.id); });
+});
+
+// ===== SCREEN =====
+function switchScreen(name) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(`screen-${name}`).classList.add('active');
+}
+
+// ===== TOAST =====
+let toastT;
+function toast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent=msg; t.className=`toast ${type} show`;
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.className='toast',3500);
+}
+</script>
+</body>
+</html>
