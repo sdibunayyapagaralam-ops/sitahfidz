@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -12,119 +13,166 @@
   --gray-50:#f8fafc;--gray-100:#f1f5f9;--gray-200:#e2e8f0;
   --gray-400:#94a3b8;--gray-500:#64748b;--gray-600:#475569;--gray-700:#334155;--gray-900:#0f172a;
   --danger:#dc2626;--danger-light:#fef2f2;--blue:#2563eb;--blue-light:#eff6ff;
-  --radius:14px;--radius-sm:10px;--radius-lg:18px;
-  --shadow:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 4px 16px rgba(0,0,0,.08);--shadow-lg:0 10px 40px rgba(0,0,0,.12);
+  --radius:12px;--radius-sm:8px;
+  --shadow:0 1px 3px rgba(0,0,0,.08);--shadow-lg:0 8px 32px rgba(0,0,0,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gray-50);color:var(--gray-900);min-height:100vh;max-width:480px;margin:0 auto}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gray-50);color:var(--gray-900);min-height:100vh}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
 
-.screen{display:none;min-height:100vh;flex-direction:column}
-.screen.active{display:flex}
-
-/* ── LOGIN ── */
-#screen-login{background:linear-gradient(160deg,#071f12 0%,#0f3d24 45%,#1a6b45 100%);padding:0;position:relative;overflow:hidden;justify-content:flex-end}
-.login-bg-art{position:absolute;top:0;left:0;right:0;height:55%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
-.login-bg-art .arabic{font-family:'Amiri',serif;font-size:22px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:1.5rem}
-.login-logo-big{width:80px;height:80px;border-radius:20px;background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Amiri',serif;font-size:38px;color:white;margin-bottom:1rem}
-.login-app-name{font-size:28px;font-weight:800;color:white;letter-spacing:-1px}
-.login-app-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:4px;text-align:center}
-
-.login-sheet{background:white;border-radius:28px 28px 0 0;padding:2rem 1.5rem 2.5rem;flex:1}
-.login-sheet-title{font-size:20px;font-weight:800;color:var(--gray-900);margin-bottom:4px}
-.login-sheet-sub{font-size:13px;color:var(--gray-400);margin-bottom:1.5rem}
+/* ══ LOGIN ══ */
+#screen-login{
+  min-height:100vh;display:none;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#071f12 0%,#0f3d24 50%,#1a6b45 100%);
+  padding:1.5rem;
+}
+#screen-login.active{display:flex}
+.login-box{
+  background:white;border-radius:20px;padding:2.5rem 2rem;
+  width:100%;max-width:400px;box-shadow:var(--shadow-lg);
+}
+.login-head{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem}
+.login-ico{
+  width:52px;height:52px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--green),var(--green-mid));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Amiri',serif;font-size:26px;color:white;
+  box-shadow:0 4px 12px rgba(26,107,69,.3)
+}
+.login-ttl{font-size:20px;font-weight:800;color:var(--gray-900)}
+.login-sub{font-size:12px;color:var(--gray-400);margin-top:2px}
+.ortu-badge{
+  display:inline-flex;align-items:center;background:var(--green-light);
+  border:1px solid #86efac;color:var(--green-dark);font-size:11px;font-weight:700;
+  padding:4px 10px;border-radius:99px;margin-bottom:1.5rem;
+  text-transform:uppercase;letter-spacing:.05em
+}
 .fg{margin-bottom:1rem}
-.fg label{font-size:12px;font-weight:700;color:var(--gray-600);display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
-.fg input{width:100%;padding:13px 16px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:15px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--gray-900);outline:none;transition:all .2s}
+.fg label{font-size:12px;font-weight:700;color:var(--gray-600);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.fg input{
+  width:100%;padding:11px 14px;border:1.5px solid var(--gray-200);
+  border-radius:var(--radius-sm);font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;
+  color:var(--gray-900);outline:none;transition:all .2s
+}
 .fg input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(26,107,69,.08)}
-.btn-login{width:100%;padding:15px;background:linear-gradient(135deg,var(--green),var(--green-mid));color:white;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(26,107,69,.3);margin-top:4px}
+.btn-login{
+  width:100%;padding:13px;background:linear-gradient(135deg,var(--green),var(--green-mid));
+  color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;margin-top:4px;
+  box-shadow:0 4px 12px rgba(26,107,69,.25);transition:all .2s
+}
 .btn-login:hover{transform:translateY(-1px)}
 .btn-login:disabled{background:var(--gray-400);box-shadow:none;transform:none;cursor:not-allowed}
-.login-err{background:var(--danger-light);color:var(--danger);border:1px solid #fca5a5;padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;margin-bottom:1rem;display:none}
+.login-err{
+  background:var(--danger-light);color:var(--danger);border:1px solid #fca5a5;
+  padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;
+  margin-bottom:1rem;display:none
+}
 .login-err.show{display:block}
-.login-info{margin-top:1.25rem;font-size:12px;color:var(--gray-400);text-align:center;line-height:1.6}
+.login-note{margin-top:1rem;font-size:12px;color:var(--gray-400);text-align:center;line-height:1.6}
 
-/* ── HEADER ── */
-.header{background:linear-gradient(135deg,var(--green-dark),var(--green));padding:1.25rem 1.25rem 1.5rem;position:relative;overflow:hidden}
-.header::after{content:'الله';font-family:'Amiri',serif;position:absolute;right:-10px;top:-10px;font-size:80px;color:rgba(255,255,255,.05);pointer-events:none}
-.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.header-brand{display:flex;align-items:center;gap:8px}
-.header-icon{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Amiri',serif;font-size:16px;color:white}
-.header-name{font-size:14px;font-weight:700;color:white}
-.btn-keluar{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:6px 12px;border-radius:6px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer}
+/* ══ NAVBAR ══ */
+.navbar{
+  background:var(--green);padding:0 1.5rem;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.15)
+}
+.nb-brand{display:flex;align-items:center;gap:10px}
+.nb-ico{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:'Amiri',serif;font-size:16px;color:white}
+.nb-ttl{font-size:15px;font-weight:700;color:white}
+.nb-sub{font-size:11px;color:rgba(255,255,255,.65)}
+.nb-right{display:flex;align-items:center;gap:10px}
+.nb-user strong{display:block;font-size:13px;color:white;text-align:right}
+.nb-user span{font-size:11px;color:rgba(255,255,255,.65)}
+.btn-out{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:white;padding:6px 12px;border-radius:6px;font-size:12px;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.btn-out:hover{background:rgba(255,255,255,.25)}
 
-.anak-card{background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:1rem 1.25rem}
-.anak-label{font-size:11px;color:rgba(255,255,255,.65);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.anak-nama{font-size:20px;font-weight:800;color:white;letter-spacing:-.3px}
-.anak-info{font-size:12px;color:rgba(255,255,255,.7);margin-top:4px}
-.anak-badges{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.anak-badge{background:rgba(255,255,255,.2);color:white;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px}
+/* ══ ANAK INFO BAR ══ */
+.anak-bar{
+  background:linear-gradient(135deg,var(--green-dark),var(--green));
+  padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px
+}
+.anak-nama{font-size:18px;font-weight:800;color:white;letter-spacing:-.3px}
+.anak-detail{font-size:12px;color:rgba(255,255,255,.75);margin-top:3px}
+.anak-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.anak-tag{background:rgba(255,255,255,.2);color:white;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px}
 
-/* ── TABS ── */
-.tabs{display:flex;background:white;border-bottom:1px solid var(--gray-200);overflow-x:auto}
+/* ══ TABS ══ */
+.tabs{background:white;border-bottom:1px solid var(--gray-200);padding:0 1.5rem;display:flex;gap:0;overflow-x:auto}
 .tabs::-webkit-scrollbar{display:none}
-.tab-btn{flex:1;min-width:70px;padding:12px 8px;font-size:12px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--gray-400);border-bottom:2px solid transparent;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:all .15s}
+.tab-btn{
+  padding:14px 18px;font-size:13px;font-weight:600;cursor:pointer;border:none;
+  background:none;color:var(--gray-400);border-bottom:2px solid transparent;
+  font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;transition:all .15s;flex-shrink:0
+}
+.tab-btn:hover{color:var(--gray-700)}
 .tab-btn.active{color:var(--green);border-bottom-color:var(--green)}
 
-.content{flex:1;padding:1rem;overflow-y:auto}
+/* ══ LAYOUT ══ */
+.page-content{max-width:860px;margin:0 auto;padding:1.5rem}
 
-/* ── PROGRESS CARDS ── */
-.progress-section{margin-bottom:1.25rem}
-.section-title{font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+/* ══ CARDS ══ */
+.card{background:white;border-radius:var(--radius);border:1px solid var(--gray-200);box-shadow:var(--shadow);margin-bottom:1.25rem;overflow:hidden}
+.card-hdr{padding:1rem 1.25rem;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.card-title{font-size:14px;font-weight:700;color:var(--gray-900)}
+.card-body{padding:1.25rem}
 
-.prog-card{background:white;border-radius:var(--radius);border:1px solid var(--gray-200);box-shadow:var(--shadow);padding:1.1rem 1.25rem;margin-bottom:10px}
-.prog-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.prog-card-title{font-size:14px;font-weight:700;color:var(--gray-900)}
-.prog-card-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px}
+/* ══ PROGRESS ══ */
+.prog-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.25rem}
+.prog-card{background:white;border-radius:var(--radius);border:1px solid var(--gray-200);box-shadow:var(--shadow);padding:1.25rem}
+.prog-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.prog-label{font-size:14px;font-weight:700;color:var(--gray-900)}
+.prog-pct{font-size:13px;font-weight:700;color:var(--green)}
 .pbar-wrap{background:var(--gray-100);border-radius:99px;height:8px;overflow:hidden;margin-bottom:8px}
-.pbar-fill{height:100%;border-radius:99px;transition:width .6s ease}
-.pbar-green{background:linear-gradient(90deg,var(--green-mid),var(--green))}
-.pbar-gold{background:linear-gradient(90deg,var(--gold),#d4a843)}
+.pbar-fill{height:100%;border-radius:99px;transition:width .6s}
+.pbar-g{background:var(--green)}.pbar-o{background:var(--gold)}
 .prog-info{display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400)}
+.prog-detail{font-size:13px;color:var(--gray-600);margin-top:6px;padding-top:6px;border-top:1px solid var(--gray-100)}
 
-/* ── RIWAYAT CARDS ── */
-.riwayat-item{background:white;border-radius:var(--radius-sm);border:1px solid var(--gray-200);box-shadow:var(--shadow);padding:1rem;margin-bottom:8px}
-.ri-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.ri-tgl{font-size:11px;color:var(--gray-400);font-weight:500}
-.ri-detail{font-size:13px;color:var(--gray-700);line-height:1.5}
-.ri-detail strong{color:var(--gray-900)}
-.ri-catatan{font-size:12px;color:var(--gray-500);margin-top:5px;padding-top:5px;border-top:1px solid var(--gray-100);font-style:italic}
-.ri-source{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-top:4px;display:inline-block}
-.rs-sekolah{background:var(--green-light);color:var(--green)}
-.rs-rumah{background:var(--gold-light);color:var(--gold-dark)}
+/* ══ RIWAYAT ITEMS ══ */
+.ri{background:white;border-radius:var(--radius);border:1px solid var(--gray-200);box-shadow:var(--shadow);padding:1rem 1.25rem;margin-bottom:8px}
+.ri-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.ri-tgl{font-size:11px;color:var(--gray-400);font-weight:500;margin-left:auto}
+.ri-body{font-size:13px;color:var(--gray-700);line-height:1.6}
+.ri-body strong{color:var(--gray-900)}
+.ri-note{font-size:12px;color:var(--gray-500);margin-top:6px;padding-top:6px;border-top:1px solid var(--gray-100);font-style:italic}
+.src-s{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-top:5px;background:var(--green-light);color:var(--green)}
+.src-r{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-top:5px;background:var(--gold-light);color:var(--gold-dark)}
 
-/* ── INPUT FORM ── */
-.form-card{background:white;border-radius:var(--radius);border:1px solid var(--gray-200);box-shadow:var(--shadow);padding:1.25rem;margin-bottom:1rem}
-.form-title{font-size:14px;font-weight:700;color:var(--gray-900);margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+/* ══ FORM ══ */
 .mf{margin-bottom:1rem}
 .mf label{font-size:12px;font-weight:700;color:var(--gray-600);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-.mf select,.mf textarea,.mf input{width:100%;padding:11px 13px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;color:var(--gray-900);outline:none;transition:all .2s;background:white}
-.mf select:focus,.mf textarea:focus,.mf input:focus{border-color:var(--green)}
-.mf textarea{min-height:80px;resize:none;font-size:13px}
+.mf input,.mf select,.mf textarea{
+  width:100%;padding:10px 13px;border:1.5px solid var(--gray-200);
+  border-radius:var(--radius-sm);font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;
+  color:var(--gray-900);outline:none;transition:all .2s;background:white
+}
+.mf input:focus,.mf select:focus,.mf textarea:focus{border-color:var(--green)}
+.mf textarea{min-height:80px;resize:vertical;font-size:13px}
+.mf-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-/* JENIS TOGGLE */
-.jenis-grp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.jenis-btn{padding:10px;border-radius:var(--radius-sm);border:1.5px solid var(--gray-200);background:white;font-size:13px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;color:var(--gray-500);text-align:center;transition:all .15s}
-.jenis-btn.active{background:var(--green-light);border-color:var(--green);color:var(--green)}
+/* TOGGLE BUTTONS */
+.toggle-grp{display:flex;gap:8px;flex-wrap:wrap}
+.tgl{
+  padding:9px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--gray-200);
+  background:white;font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;color:var(--gray-500);transition:all .15s;flex:1;text-align:center
+}
+.tgl.on{background:var(--green-light);border-color:var(--green);color:var(--green)}
+.tgl.on-gold{background:var(--gold-light);border-color:var(--gold);color:var(--gold-dark)}
+.tgl.on-blue{background:var(--blue-light);border-color:var(--blue);color:var(--blue)}
+.tgl.on-red{background:var(--danger-light);border-color:var(--danger);color:var(--danger)}
 
-.btn-primary{width:100%;padding:13px;background:linear-gradient(135deg,var(--green),var(--green-mid));color:white;border:none;border-radius:var(--radius-sm);font-size:14px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 4px 12px rgba(26,107,69,.25);transition:all .15s}
-.btn-primary:hover{transform:translateY(-1px)}
-.btn-primary:disabled{background:var(--gray-300);box-shadow:none;transform:none;cursor:not-allowed}
+.btn-primary{
+  width:100%;padding:12px;background:var(--green);color:white;border:none;
+  border-radius:var(--radius-sm);font-size:14px;font-weight:700;
+  font-family:'Plus Jakarta Sans',sans-serif;cursor:pointer;margin-top:4px;transition:all .15s
+}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-primary:disabled{background:var(--gray-400);cursor:not-allowed}
 
-/* FEEDBACK FORM */
-.tipe-grp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1rem}
-.tipe-btn{padding:10px 8px;border-radius:var(--radius-sm);border:1.5px solid var(--gray-200);background:white;font-size:12px;font-weight:600;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;color:var(--gray-500);text-align:center;transition:all .15s}
-.tipe-btn.active.saran{background:#eff6ff;border-color:var(--blue);color:var(--blue)}
-.tipe-btn.active.kritik{background:var(--danger-light);border-color:var(--danger);color:var(--danger)}
-.tipe-btn.active.pertanyaan{background:var(--gold-light);border-color:var(--gold);color:var(--gold-dark)}
-.tipe-btn.active.apresiasi{background:var(--green-light);border-color:var(--green);color:var(--green)}
-
-.riwayat-fb{background:white;border-radius:var(--radius-sm);border:1px solid var(--gray-200);box-shadow:var(--shadow);padding:1rem;margin-bottom:8px}
-.rfb-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.rfb-tipe{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px}
-.rfb-tgl{font-size:11px;color:var(--gray-400)}
-.rfb-msg{font-size:13px;color:var(--gray-700);line-height:1.6}
-
-/* UTIL */
+/* ══ BADGES ══ */
 .badge{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:700}
 .bg{background:var(--green-light);color:var(--green)}
 .bo{background:var(--gold-light);color:var(--gold-dark)}
@@ -132,68 +180,76 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gray-50);color:
 .br{background:var(--danger-light);color:var(--danger)}
 .bx{background:var(--gray-100);color:var(--gray-500)}
 
-.empty{text-align:center;padding:2.5rem 1rem;color:var(--gray-400)}
-.empty-icon{font-size:36px;margin-bottom:8px}
-.empty-text{font-size:13px}
+/* ══ UTIL ══ */
+.empty{text-align:center;padding:2.5rem;color:var(--gray-400)}
+.empty-ico{font-size:36px;margin-bottom:8px}
+.empty-txt{font-size:13px}
 .loading{display:flex;align-items:center;justify-content:center;padding:2.5rem;gap:10px;color:var(--gray-400);font-size:13px}
 .spinner{width:18px;height:18px;border:2px solid var(--gray-200);border-top-color:var(--green);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+.section-ttl{font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:10px;margin-top:4px}
 
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);padding:12px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);z-index:999;opacity:0;transition:all .3s;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:12px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;box-shadow:var(--shadow-lg);z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;display:flex;align-items:center;gap:8px;max-width:320px}
+.toast.show{transform:none;opacity:1}
 .toast.success{background:var(--green);color:white}
 .toast.error{background:var(--danger);color:white}
 .toast.info{background:var(--gray-900);color:white}
 
-.divider{height:1px;background:var(--gray-100);margin:1rem 0}
+.filter-row{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+.filter-row select{padding:8px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;flex:1;min-width:120px}
+.filter-row select:focus{border-color:var(--green)}
+
+@media(max-width:600px){
+  .prog-grid{grid-template-columns:1fr}
+  .mf-row{grid-template-columns:1fr}
+  .page-content{padding:1rem}
+  .anak-bar{padding:.875rem 1rem}
+  .tabs{padding:0 1rem}
+  .tab-btn{padding:12px 12px;font-size:12px}
+}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div id="screen-login" class="screen active">
-  <div class="login-bg-art">
-    <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-    <div class="login-logo-big">ط</div>
-    <div class="login-app-name">SiTahfidz</div>
-    <div class="login-app-sub">SD Islam Bunayya · Kota Pagar Alam</div>
-  </div>
-  <div class="login-sheet">
-    <div class="login-sheet-title">Masuk sebagai Orang Tua</div>
-    <div class="login-sheet-sub">Pantau perkembangan tahfidz & mengaji anak Anda</div>
+<div id="screen-login" class="screen">
+  <div class="login-box">
+    <div class="login-head">
+      <div class="login-ico">ط</div>
+      <div>
+        <div class="login-ttl">SiTahfidz</div>
+        <div class="login-sub">SD Islam Bunayya · Kota Pagar Alam</div>
+      </div>
+    </div>
+    <div class="ortu-badge">👨‍👩‍👦 Portal Orang Tua</div>
     <div class="login-err" id="login-err"></div>
-    <div class="fg">
-      <label>Email</label>
-      <input type="email" id="inp-email" placeholder="email@gmail.com" autocomplete="email" inputmode="email">
-    </div>
-    <div class="fg">
-      <label>Password</label>
-      <input type="password" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
-    <button class="btn-login" id="btn-masuk" onclick="doLogin()">Masuk 🔐</button>
-    <div class="login-info">
-      Akun dibuat oleh pihak sekolah.<br>
-      Hubungi wali kelas jika belum memiliki akun.
-    </div>
+    <div class="fg"><label>Email</label><input type="email" id="inp-email" placeholder="email@gmail.com" autocomplete="email"></div>
+    <div class="fg"><label>Password</label><input type="password" id="inp-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn-login" id="btn-masuk" onclick="doLogin()">🔐 Masuk</button>
+    <div class="login-note">Akun dibuat oleh pihak sekolah.<br>Hubungi wali kelas jika belum memiliki akun.</div>
   </div>
 </div>
 
 <!-- DASHBOARD -->
 <div id="screen-dashboard" class="screen">
-  <!-- Header -->
-  <div class="header">
-    <div class="header-top">
-      <div class="header-brand">
-        <div class="header-icon">ط</div>
-        <div class="header-name">SiTahfidz</div>
-      </div>
-      <button class="btn-keluar" onclick="logout()">Keluar</button>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nb-brand">
+      <div class="nb-ico">ط</div>
+      <div><div class="nb-ttl">SiTahfidz</div><div class="nb-sub">Portal Orang Tua</div></div>
     </div>
-    <div class="anak-card">
-      <div class="anak-label">Putra/Putri Anda</div>
+    <div class="nb-right">
+      <div class="nb-user"><strong id="nb-nama">—</strong><span>Orang Tua</span></div>
+      <button class="btn-out" onclick="logout()">Keluar</button>
+    </div>
+  </nav>
+
+  <!-- Anak Info Bar -->
+  <div class="anak-bar">
+    <div>
       <div class="anak-nama" id="anak-nama">—</div>
-      <div class="anak-info" id="anak-info">—</div>
-      <div class="anak-badges" id="anak-badges"></div>
+      <div class="anak-detail" id="anak-detail">—</div>
+      <div class="anak-tags" id="anak-tags"></div>
     </div>
   </div>
 
@@ -202,142 +258,131 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gray-50);color:
     <button class="tab-btn active" onclick="switchTab('progress')" id="tbtn-progress">📊 Progress</button>
     <button class="tab-btn" onclick="switchTab('riwayat')" id="tbtn-riwayat">📋 Riwayat</button>
     <button class="tab-btn" onclick="switchTab('lapor')" id="tbtn-lapor">🏠 Lapor Rumah</button>
-    <button class="tab-btn" onclick="switchTab('pesan')" id="tbtn-pesan">💬 Pesan</button>
+    <button class="tab-btn" onclick="switchTab('pesan')" id="tbtn-pesan">💬 Pesan Sekolah</button>
   </div>
 
-  <!-- Content -->
-  <div class="content">
-
-    <!-- PROGRESS -->
-    <div id="tab-progress">
-      <div class="progress-section">
-        <div class="section-title">📖 Progress Iqro</div>
-        <div id="prog-iqro"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
-      </div>
-      <div class="progress-section">
-        <div class="section-title">🕌 Progress Tahfidz</div>
-        <div id="prog-tahfidz"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
-      </div>
-      <div class="progress-section">
-        <div class="section-title">📅 Catatan Terbaru dari Sekolah</div>
-        <div id="catatan-terbaru"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
-      </div>
+  <!-- Tab: Progress -->
+  <div id="tab-progress" class="page-content">
+    <div class="prog-grid">
+      <div id="prog-iqro"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
+      <div id="prog-tahfidz"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
     </div>
+    <div class="section-ttl">📅 Catatan Terbaru dari Sekolah</div>
+    <div id="catatan-terbaru"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
+  </div>
 
-    <!-- RIWAYAT -->
-    <div id="tab-riwayat" style="display:none">
-      <div style="display:flex;gap:8px;margin-bottom:1rem">
-        <select id="filter-riwayat-jenis" onchange="loadRiwayat()" style="flex:1;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none">
-          <option value="semua">Semua</option>
-          <option value="iqro">Iqro</option>
-          <option value="tahfidz">Tahfidz</option>
-        </select>
-        <select id="filter-riwayat-sumber" onchange="loadRiwayat()" style="flex:1;padding:9px 12px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none">
-          <option value="semua">Semua Sumber</option>
-          <option value="sekolah">Sekolah</option>
-          <option value="rumah">Rumah</option>
-        </select>
-      </div>
-      <div id="riwayat-list"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
+  <!-- Tab: Riwayat -->
+  <div id="tab-riwayat" class="page-content" style="display:none">
+    <div class="filter-row">
+      <select id="f-jenis" onchange="loadRiwayat()">
+        <option value="semua">Semua Jenis</option>
+        <option value="iqro">Iqro</option>
+        <option value="tahfidz">Tahfidz</option>
+      </select>
+      <select id="f-sumber" onchange="loadRiwayat()">
+        <option value="semua">Semua Sumber</option>
+        <option value="sekolah">Dari Sekolah</option>
+        <option value="rumah">Dari Rumah</option>
+      </select>
     </div>
+    <div id="riwayat-list"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
+  </div>
 
-    <!-- LAPOR RUMAH -->
-    <div id="tab-lapor" style="display:none">
-      <div class="form-card">
-        <div class="form-title">🏠 Laporan Belajar di Rumah</div>
+  <!-- Tab: Lapor Rumah -->
+  <div id="tab-lapor" class="page-content" style="display:none">
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">🏠 Laporan Belajar di Rumah</div></div>
+      <div class="card-body">
 
-        <!-- Jenis laporan toggle -->
         <div class="mf">
           <label>Jenis Kegiatan</label>
-          <div class="jenis-grp">
-            <button class="jenis-btn active" id="jbtn-iqro" onclick="setJenisLapor('iqro')">📖 Mengaji Iqro</button>
-            <button class="jenis-btn" id="jbtn-tahfidz" onclick="setJenisLapor('tahfidz')">🕌 Hafalan</button>
+          <div class="toggle-grp">
+            <button class="tgl on" id="tgl-iqro" onclick="setJenisLapor('iqro')">📖 Mengaji Iqro</button>
+            <button class="tgl" id="tgl-tahfidz" onclick="setJenisLapor('tahfidz')">🕌 Hafalan</button>
           </div>
         </div>
 
         <!-- Form Iqro -->
-        <div id="form-iqro-rumah">
-          <div class="mf">
-            <label>Jilid Iqro</label>
-            <select id="lapor-jilid">
-              <option value="">— Pilih Jilid —</option>
-              <option value="1">Jilid 1</option><option value="2">Jilid 2</option>
-              <option value="3">Jilid 3</option><option value="4">Jilid 4</option>
-              <option value="5">Jilid 5</option><option value="6">Jilid 6</option>
-            </select>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div class="mf"><label>Halaman Mulai</label><input type="text" id="lapor-hal-mulai" placeholder="1" inputmode="numeric"></div>
-            <div class="mf"><label>Halaman Selesai</label><input type="text" id="lapor-hal-selesai" placeholder="4" inputmode="numeric"></div>
-          </div>
-          <div class="mf">
-            <label>Jenis</label>
-            <div class="jenis-grp">
-              <button class="jenis-btn active" id="jbtn-ngaji" onclick="setJenisIqroRumah('ngaji')">📖 Ngaji Baru</button>
-              <button class="jenis-btn" id="jbtn-murojaah-iqro" onclick="setJenisIqroRumah('murajaah')">🔁 Murojaah</button>
+        <div id="form-iqro">
+          <div class="mf-row">
+            <div class="mf">
+              <label>Jilid Iqro</label>
+              <select id="l-jilid">
+                <option value="">— Pilih —</option>
+                <option value="1">Jilid 1</option><option value="2">Jilid 2</option>
+                <option value="3">Jilid 3</option><option value="4">Jilid 4</option>
+                <option value="5">Jilid 5</option><option value="6">Jilid 6</option>
+              </select>
             </div>
+            <div class="mf">
+              <label>Jenis Kegiatan</label>
+              <div class="toggle-grp">
+                <button class="tgl on" id="tgl-ngaji" onclick="setIqroJenis('ngaji')">📖 Ngaji</button>
+                <button class="tgl" id="tgl-ulang" onclick="setIqroJenis('murajaah')">🔁 Ulang</button>
+              </div>
+            </div>
+          </div>
+          <div class="mf-row">
+            <div class="mf"><label>Halaman Mulai</label><input type="text" id="l-hal-mulai" placeholder="1" inputmode="numeric"></div>
+            <div class="mf"><label>Halaman Selesai</label><input type="text" id="l-hal-selesai" placeholder="4" inputmode="numeric"></div>
           </div>
         </div>
 
         <!-- Form Tahfidz -->
-        <div id="form-tahfidz-rumah" style="display:none">
+        <div id="form-tahfidz" style="display:none">
           <div class="mf">
-            <label>Surah yang Disetorkan</label>
-            <select id="lapor-surah">
-              <option value="">— Pilih Surah —</option>
-            </select>
+            <label>Surah</label>
+            <select id="l-surah"><option value="">— Pilih Surah —</option></select>
           </div>
           <div class="mf">
             <label>Jenis</label>
-            <div class="jenis-grp">
-              <button class="jenis-btn active" id="jbtn-ziyadah" onclick="setJenisTahfidzRumah('ziyadah')">✨ Ziyadah Baru</button>
-              <button class="jenis-btn" id="jbtn-murojaah-tf" onclick="setJenisTahfidzRumah('murojaah')">🔁 Murojaah</button>
+            <div class="toggle-grp">
+              <button class="tgl on" id="tgl-ziyadah" onclick="setTfJenis('ziyadah')">✨ Ziyadah Baru</button>
+              <button class="tgl" id="tgl-murojaah" onclick="setTfJenis('murojaah')">🔁 Murojaah</button>
             </div>
           </div>
         </div>
 
+        <div class="mf"><label>Tanggal</label><input type="date" id="l-tgl"></div>
         <div class="mf">
-          <label>Tanggal</label>
-          <input type="date" id="lapor-tgl">
-        </div>
-        <div class="mf">
-          <label>Komentar / Catatan Singkat</label>
-          <textarea id="lapor-catatan" placeholder="Contoh: Sudah lancar, tapi masih perlu latihan huruf ع..."></textarea>
+          <label>Catatan Singkat (opsional)</label>
+          <textarea id="l-catatan" placeholder="Contoh: Alhamdulillah sudah lancar, masih perlu latihan huruf ع..."></textarea>
         </div>
         <button class="btn-primary" id="btn-lapor" onclick="kirimLaporan()">📤 Kirim Laporan</button>
       </div>
-
-      <!-- Riwayat laporan rumah -->
-      <div class="section-title" style="margin-top:1rem">📋 Riwayat Laporan Rumah</div>
-      <div id="riwayat-lapor-rumah"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
     </div>
 
-    <!-- PESAN -->
-    <div id="tab-pesan" style="display:none">
-      <div class="form-card">
-        <div class="form-title">💬 Kirim Pesan ke Sekolah</div>
+    <div class="section-ttl">📋 Riwayat Laporan dari Rumah</div>
+    <div id="riwayat-lapor"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
+  </div>
+
+  <!-- Tab: Pesan -->
+  <div id="tab-pesan" class="page-content" style="display:none">
+    <div class="card">
+      <div class="card-hdr"><div class="card-title">💬 Kirim Pesan ke Sekolah</div></div>
+      <div class="card-body">
         <div class="mf">
           <label>Jenis Pesan</label>
-          <div class="tipe-grp">
-            <button class="tipe-btn active saran" id="tbtn-saran" onclick="setTipe('saran')">💡 Saran</button>
-            <button class="tipe-btn" id="tbtn-kritik" onclick="setTipe('kritik')">⚠️ Kritik</button>
-            <button class="tipe-btn" id="tbtn-pertanyaan" onclick="setTipe('pertanyaan')">❓ Pertanyaan</button>
-            <button class="tipe-btn" id="tbtn-apresiasi" onclick="setTipe('apresiasi')">⭐ Apresiasi</button>
+          <div class="toggle-grp">
+            <button class="tgl on" id="tgl-saran" onclick="setTipe('saran')">💡 Saran</button>
+            <button class="tgl" id="tgl-kritik" onclick="setTipe('kritik')">⚠️ Kritik</button>
+            <button class="tgl" id="tgl-tanya" onclick="setTipe('pertanyaan')">❓ Tanya</button>
+            <button class="tgl" id="tgl-apresiasi" onclick="setTipe('apresiasi')">⭐ Apresiasi</button>
           </div>
         </div>
         <div class="mf">
-          <label>Pesan Anda</label>
-          <textarea id="pesan-teks" placeholder="Tulis pesan, saran, atau pertanyaan Anda di sini..." rows="5"></textarea>
+          <label>Pesan ★</label>
+          <textarea id="p-teks" placeholder="Tulis pesan, saran, atau pertanyaan Anda di sini..." rows="5"></textarea>
         </div>
-        <button class="btn-primary" id="btn-kirim-pesan" onclick="kirimPesan()">📨 Kirim Pesan</button>
+        <button class="btn-primary" id="btn-pesan" onclick="kirimPesan()">📨 Kirim Pesan</button>
       </div>
-
-      <div class="section-title" style="margin-top:1rem">📨 Riwayat Pesan Saya</div>
-      <div id="riwayat-pesan"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
     </div>
 
+    <div class="section-ttl">📨 Riwayat Pesan Saya</div>
+    <div id="riwayat-pesan"><div class="loading"><div class="spinner"></div>Memuat...</div></div>
   </div>
-</div>
+
+</div><!-- /screen-dashboard -->
 
 <div class="toast" id="toast"></div>
 
@@ -346,13 +391,13 @@ const SB='https://zghmvyjizzyjmicflmmn.supabase.co';
 const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpnaG12eWppenp5am1pY2ZsbW1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA2NjA0MDksImV4cCI6MjA5NjIzNjQwOX0.OpcWFPTv_32A0GRlWkvBS_rWgmm-Xv4iMwVREhfuxGA';
 
 let me=null, siswa=null;
-let jenisLapor='iqro', jenisIqroRumah='ngaji', jenisTahfidzRumah='ziyadah', selTipe='saran';
+let jenisLapor='iqro', iqroJenis='ngaji', tfJenis='ziyadah', selTipe='saran';
 
 const SURAH=[
   {no:1,nama:'Al-Fatihah'},{no:2,nama:'Al-Baqarah'},
-  {no:78,nama:'An-Naba'},{no:79,nama:"An-Nazi'at"},{no:80,nama:'Abasa'},
+  {no:78,nama:"An-Naba'"},{no:79,nama:"An-Nazi'at"},{no:80,nama:'Abasa'},
   {no:81,nama:'At-Takwir'},{no:82,nama:'Al-Infitar'},{no:83,nama:'Al-Mutaffifin'},
-  {no:84,nama:"Al-Insyiqaq"},{no:85,nama:'Al-Buruj'},{no:86,nama:'At-Tariq'},
+  {no:84,nama:'Al-Insyiqaq'},{no:85,nama:'Al-Buruj'},{no:86,nama:'At-Tariq'},
   {no:87,nama:"Al-A'la"},{no:88,nama:'Al-Ghasyiyah'},{no:89,nama:'Al-Fajr'},
   {no:90,nama:'Al-Balad'},{no:91,nama:'Asy-Syams'},{no:92,nama:'Al-Lail'},
   {no:93,nama:'Ad-Duha'},{no:94,nama:'Al-Insyirah'},{no:95,nama:'At-Tin'},
@@ -361,11 +406,10 @@ const SURAH=[
   {no:102,nama:'At-Takasur'},{no:103,nama:"Al-'Asr"},{no:104,nama:'Al-Humazah'},
   {no:105,nama:'Al-Fil'},{no:106,nama:'Quraisy'},{no:107,nama:"Al-Ma'un"},
   {no:108,nama:'Al-Kausar'},{no:109,nama:'Al-Kafirun'},{no:110,nama:'An-Nasr'},
-  {no:111,nama:'Al-Masad'},{no:112,nama:'Al-Ikhlas'},{no:113,nama:'Al-Falaq'},
-  {no:114,nama:'An-Nas'}
+  {no:111,nama:'Al-Masad'},{no:112,nama:'Al-Ikhlas'},{no:113,nama:'Al-Falaq'},{no:114,nama:'An-Nas'}
 ];
+const NILAI_LABEL={mumtaz:'⭐ Mumtaz',jayyid:'✅ Jayyid',maqbul:'👍 Maqbul',perlu_latihan:'⚠️ Perlu Latihan'};
 
-// ── API ──
 async function db(path,opts={}){
   const r=await fetch(`${SB}/rest/v1/${path}`,{...opts,headers:{'apikey':SK,'Content-Type':'application/json','Prefer':'return=representation',...(opts.headers||{})}});
   if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||`HTTP ${r.status}`)}
@@ -385,174 +429,145 @@ async function doLogin(){
   btn.disabled=true;btn.textContent='Memverifikasi...';hideErr();
   try{
     const res=await rpc('login_ortu',{p_email:email,p_password:pass});
-    if(!res||!res.length){showErr('Email atau password salah.');btn.disabled=false;btn.textContent='Masuk 🔐';return}
-    me=res[0];
-    localStorage.setItem('ortu_session',JSON.stringify(me));
+    if(!res||!res.length){showErr('Email atau password salah.');btn.disabled=false;btn.textContent='🔐 Masuk';return}
+    me=res[0];localStorage.setItem('ortu_sesi',JSON.stringify(me));
     await enterDashboard();
-  }catch(e){showErr('Gagal: '+e.message);btn.disabled=false;btn.textContent='Masuk 🔐'}
+  }catch(e){showErr('Gagal: '+e.message);btn.disabled=false;btn.textContent='🔐 Masuk'}
 }
 function showErr(m){const el=document.getElementById('login-err');el.textContent=m;el.classList.add('show')}
 function hideErr(){document.getElementById('login-err').classList.remove('show')}
-function logout(){me=null;siswa=null;localStorage.removeItem('ortu_session');switchScreen('login')}
+function logout(){me=null;siswa=null;localStorage.removeItem('ortu_sesi');switchScreen('login')}
 
-// ── INIT ──
 window.addEventListener('load',async()=>{
-  const s=localStorage.getItem('ortu_session');
+  const s=localStorage.getItem('ortu_sesi');
   if(s){try{me=JSON.parse(s);await enterDashboard();return}catch(e){}}
   switchScreen('login');
 });
 
-// ── DASHBOARD ──
 async function enterDashboard(){
   switchScreen('dashboard');
-  // Fill surah dropdown
-  const sel=document.getElementById('lapor-surah');
+  document.getElementById('nb-nama').textContent=(me.nama||'Orang Tua').split(' ').slice(0,2).join(' ');
+  // fill surah
+  const sel=document.getElementById('l-surah');
   SURAH.forEach(s=>sel.appendChild(new Option(`${s.no}. ${s.nama}`,s.no)));
-  // Set tanggal hari ini
-  document.getElementById('lapor-tgl').value=new Date().toISOString().split('T')[0];
-  // Load data siswa
+  // tanggal hari ini
+  document.getElementById('l-tgl').value=new Date().toISOString().split('T')[0];
+  // load siswa
   if(me.siswa_id){
-    try{
-      const data=await db(`siswa?id=eq.${me.siswa_id}&select=id,nama_lengkap,nis,kelas_id,jenis_kelamin,kelas(nama_kelas,tingkat)`);
-      siswa=data[0]||null;
-    }catch(e){siswa=null}
+    const d=await db(`siswa?id=eq.${me.siswa_id}&select=id,nama_lengkap,nis,jenis_kelamin,kelas(nama_kelas,tingkat)`).catch(()=>[]);
+    siswa=d[0]||null;
   }
-  renderHeader();
+  renderAnak();
   loadProgress();
 }
 
-function renderHeader(){
+function renderAnak(){
   if(!siswa){
     document.getElementById('anak-nama').textContent='Belum ada data siswa';
-    document.getElementById('anak-info').textContent='Hubungi admin sekolah';
+    document.getElementById('anak-detail').textContent='Hubungi admin sekolah untuk menghubungkan akun ke data siswa';
     return;
   }
   document.getElementById('anak-nama').textContent=siswa.nama_lengkap;
-  document.getElementById('anak-info').textContent=
-    `NIS: ${siswa.nis||'—'} · Kelas ${siswa.kelas?.nama_kelas||'—'} · ${siswa.jenis_kelamin==='L'?'Laki-laki':'Perempuan'}`;
-  document.getElementById('anak-badges').innerHTML=
-    `<span class="anak-badge">🏫 Kelas ${siswa.kelas?.nama_kelas||'—'}</span>
-     <span class="anak-badge">📚 Tahfidz</span>`;
+  document.getElementById('anak-detail').textContent=`NIS: ${siswa.nis||'—'} · ${siswa.jenis_kelamin==='L'?'Laki-laki':'Perempuan'}`;
+  document.getElementById('anak-tags').innerHTML=
+    `<span class="anak-tag">🏫 Kelas ${siswa.kelas?.nama_kelas||'—'}</span><span class="anak-tag">📚 Tahfidz</span>`;
 }
 
 // ── PROGRESS ──
 async function loadProgress(){
   if(!siswa){
-    document.getElementById('prog-iqro').innerHTML='<div class="empty"><div class="empty-icon">📖</div><div class="empty-text">Data siswa belum terhubung.</div></div>';
-    document.getElementById('prog-tahfidz').innerHTML='<div class="empty"><div class="empty-icon">🕌</div><div class="empty-text">Data siswa belum terhubung.</div></div>';
-    document.getElementById('catatan-terbaru').innerHTML='';
+    ['prog-iqro','prog-tahfidz','catatan-terbaru'].forEach(id=>{
+      document.getElementById(id).innerHTML='<div class="empty"><div class="empty-ico">ℹ️</div><div class="empty-txt">Data siswa belum terhubung.</div></div>';
+    });
     return;
   }
-  // Iqro progress
-  try{
-    const prog=await db(`progress_iqro?siswa_id=eq.${siswa.id}&select=jilid_sekarang,halaman_sekarang,khatam_iqro,khatam_tanggal`);
-    const p=prog[0];
+  // Iqro
+  db(`progress_iqro?siswa_id=eq.${siswa.id}&select=jilid_sekarang,halaman_sekarang,khatam_iqro,khatam_tanggal`).then(d=>{
+    const p=d[0];
     const el=document.getElementById('prog-iqro');
-    if(!p){el.innerHTML='<div class="empty"><div class="empty-icon">📖</div><div class="empty-text">Belum ada data Iqro.</div></div>'}
-    else if(p.khatam_iqro){
-      el.innerHTML=`<div class="prog-card">
-        <div class="prog-card-top"><div class="prog-card-title">🏅 Khatam Iqro!</div><span class="prog-card-badge bg">100%</span></div>
-        <div class="pbar-wrap"><div class="pbar-fill pbar-gold" style="width:100%"></div></div>
-        <div class="prog-info"><span>Alhamdulillah — semua jilid selesai</span><span>${p.khatam_tanggal||''}</span></div>
-      </div>`;
-    } else {
-      const jilid=p.jilid_sekarang||1, hal=p.halaman_sekarang||1;
-      const pct=Math.min(100,Math.round(((jilid-1)*32+hal)/(6*32)*100));
-      const jilidPct=Math.round((hal/32)*100);
-      el.innerHTML=`<div class="prog-card">
-        <div class="prog-card-top"><div class="prog-card-title">Jilid ${jilid} — Hal. ${hal}</div><span class="prog-card-badge bg">${pct}%</span></div>
-        <div class="pbar-wrap"><div class="pbar-fill pbar-green" style="width:${pct}%"></div></div>
-        <div class="prog-info"><span>Total progress 6 jilid</span><span>${pct}% selesai</span></div>
-        <div class="divider"></div>
-        <div style="font-size:12px;color:var(--gray-500);margin-bottom:6px;font-weight:600">Progress Jilid ${jilid}:</div>
-        <div class="pbar-wrap" style="height:5px"><div class="pbar-fill pbar-green" style="width:${jilidPct}%"></div></div>
-        <div class="prog-info" style="margin-top:4px"><span>Hal. ${hal} dari 32</span><span>${jilidPct}%</span></div>
-      </div>`;
+    if(!p){el.innerHTML=`<div class="prog-card"><div class="prog-top"><div class="prog-label">📖 Iqro</div></div><div class="empty-txt" style="color:var(--gray-400);font-size:13px;padding:.5rem 0">Belum ada data.</div></div>`;return}
+    if(p.khatam_iqro){
+      el.innerHTML=`<div class="prog-card"><div class="prog-top"><div class="prog-label">📖 Iqro</div><span class="badge bo">🏅 Khatam!</span></div><div class="pbar-wrap"><div class="pbar-fill pbar-o" style="width:100%"></div></div><div class="prog-info"><span>Alhamdulillah, semua jilid selesai</span><span>100%</span></div></div>`;
+      return;
     }
-  }catch(e){document.getElementById('prog-iqro').innerHTML='<div class="empty">Gagal memuat.</div>'}
+    const jilid=p.jilid_sekarang||1,hal=p.halaman_sekarang||1;
+    const pct=Math.min(100,Math.round(((jilid-1)*32+hal)/(6*32)*100));
+    const jilidPct=Math.round((hal/32)*100);
+    el.innerHTML=`<div class="prog-card">
+      <div class="prog-top"><div class="prog-label">📖 Iqro</div><span class="badge bg">${pct}%</span></div>
+      <div class="pbar-wrap"><div class="pbar-fill pbar-g" style="width:${pct}%"></div></div>
+      <div class="prog-info"><span>Total 6 jilid</span><span>${pct}% selesai</span></div>
+      <div class="prog-detail">Jilid ${jilid}, halaman ${hal} dari 32<br>
+        <div class="pbar-wrap" style="margin-top:6px;height:5px"><div class="pbar-fill pbar-g" style="width:${jilidPct}%"></div></div>
+      </div>
+    </div>`;
+  }).catch(()=>document.getElementById('prog-iqro').innerHTML='<div class="prog-card"><div class="empty-txt" style="color:var(--gray-400);font-size:13px">Gagal memuat.</div></div>');
 
-  // Tahfidz progress
-  try{
-    const tf=await db(`setoran_tahfidz?siswa_id=eq.${siswa.id}&jenis=eq.ziyadah&select=surah_no&order=created_at.desc`);
+  // Tahfidz
+  db(`setoran_tahfidz?siswa_id=eq.${siswa.id}&jenis=eq.ziyadah&select=surah_no&order=created_at.desc`).then(d=>{
     const el=document.getElementById('prog-tahfidz');
-    const surahSet=new Set(tf.map(t=>t.surah_no));
-    const jumlah=surahSet.size;
-    if(!jumlah){el.innerHTML='<div class="empty"><div class="empty-icon">🕌</div><div class="empty-text">Belum ada setoran tahfidz.</div></div>'}
-    else{
-      const pct=Math.round((jumlah/114)*100);
-      const surahNama=[...surahSet].slice(0,3).map(no=>SURAH.find(s=>s.no===no)?.nama||`Surah ${no}`).join(', ');
-      el.innerHTML=`<div class="prog-card">
-        <div class="prog-card-top"><div class="prog-card-title">${jumlah} Surah Dihafal</div><span class="prog-card-badge bo">${pct}% dari 114</span></div>
-        <div class="pbar-wrap"><div class="pbar-fill pbar-gold" style="width:${pct}%"></div></div>
-        <div class="prog-info"><span>${surahNama}${jumlah>3?', ...':''}</span><span>${jumlah}/114</span></div>
-      </div>`;
-    }
-  }catch(e){document.getElementById('prog-tahfidz').innerHTML='<div class="empty">Gagal memuat.</div>'}
+    const unik=new Set(d.map(t=>t.surah_no)).size;
+    if(!unik){el.innerHTML=`<div class="prog-card"><div class="prog-top"><div class="prog-label">🕌 Tahfidz</div></div><div class="empty-txt" style="color:var(--gray-400);font-size:13px;padding:.5rem 0">Belum ada setoran.</div></div>`;return}
+    const pct=Math.round((unik/114)*100);
+    el.innerHTML=`<div class="prog-card">
+      <div class="prog-top"><div class="prog-label">🕌 Tahfidz</div><span class="badge bo">${unik} surah</span></div>
+      <div class="pbar-wrap"><div class="pbar-fill pbar-o" style="width:${pct}%"></div></div>
+      <div class="prog-info"><span>Dari 114 surah Al-Quran</span><span>${pct}%</span></div>
+      <div class="prog-detail">${unik} surah sudah dihafal</div>
+    </div>`;
+  }).catch(()=>document.getElementById('prog-tahfidz').innerHTML='<div class="prog-card"><div class="empty-txt" style="color:var(--gray-400);font-size:13px">Gagal memuat.</div></div>');
 
   // Catatan terbaru
-  try{
-    const ct=await db(`catatan_iqro?siswa_id=eq.${siswa.id}&select=tanggal,jilid_id,halaman_mulai,halaman_selesai,nilai,catatan,sumber&order=tanggal.desc&limit=3`);
+  db(`catatan_iqro?siswa_id=eq.${siswa.id}&select=tanggal,jilid_id,halaman_mulai,halaman_selesai,nilai,catatan,sumber&order=tanggal.desc&limit=5`).then(d=>{
     const el=document.getElementById('catatan-terbaru');
-    const nilaiLabel={mumtaz:'⭐ Mumtaz',jayyid:'✅ Jayyid',maqbul:'👍 Maqbul',perlu_latihan:'⚠️ Perlu Latihan'};
-    if(!ct.length){el.innerHTML='<div class="empty"><div class="empty-icon">📅</div><div class="empty-text">Belum ada catatan.</div></div>'}
-    else el.innerHTML=ct.map(c=>`
-      <div class="riwayat-item">
-        <div class="ri-top">
-          <span class="badge bo">Jilid ${c.jilid_id} · Hal ${c.halaman_mulai}–${c.halaman_selesai}</span>
-          <span class="ri-tgl">${c.tanggal}</span>
-        </div>
-        <div class="ri-detail">Nilai: <strong>${nilaiLabel[c.nilai]||c.nilai||'—'}</strong></div>
-        ${c.catatan?`<div class="ri-catatan">💬 ${c.catatan}</div>`:''}
-        <span class="ri-source ${c.sumber==='rumah'?'rs-rumah':'rs-sekolah'}">${c.sumber==='rumah'?'🏠 Rumah':'🏫 Sekolah'}</span>
-      </div>`).join('');
-  }catch(e){}
+    if(!d.length){el.innerHTML='<div class="empty"><div class="empty-ico">📅</div><div class="empty-txt">Belum ada catatan.</div></div>';return}
+    el.innerHTML=d.map(c=>`<div class="ri">
+      <div class="ri-top">
+        <span class="badge bo">Jilid ${c.jilid_id} · Hal ${c.halaman_mulai}–${c.halaman_selesai}</span>
+        <span class="ri-tgl">${c.tanggal}</span>
+      </div>
+      <div class="ri-body">Nilai: <strong>${NILAI_LABEL[c.nilai]||c.nilai||'—'}</strong></div>
+      ${c.catatan?`<div class="ri-note">💬 ${c.catatan}</div>`:''}
+      <span class="${c.sumber==='rumah'?'src-r':'src-s'}">${c.sumber==='rumah'?'🏠 Rumah':'🏫 Sekolah'}</span>
+    </div>`).join('');
+  }).catch(()=>{});
 }
 
 // ── RIWAYAT ──
 async function loadRiwayat(){
   if(!siswa){document.getElementById('riwayat-list').innerHTML='<div class="empty">Data siswa belum terhubung.</div>';return}
-  const jenis=document.getElementById('filter-riwayat-jenis').value;
-  const sumber=document.getElementById('filter-riwayat-sumber').value;
+  const jenis=document.getElementById('f-jenis').value;
+  const sumber=document.getElementById('f-sumber').value;
   const el=document.getElementById('riwayat-list');
   el.innerHTML='<div class="loading"><div class="spinner"></div>Memuat...</div>';
-  const nilaiLabel={mumtaz:'⭐ Mumtaz',jayyid:'✅ Jayyid',maqbul:'👍 Maqbul',perlu_latihan:'⚠️ Perlu Latihan'};
   try{
     let items=[];
     if(jenis==='semua'||jenis==='iqro'){
-      let path=`catatan_iqro?siswa_id=eq.${siswa.id}&select=tanggal,jilid_id,halaman_mulai,halaman_selesai,status,nilai,catatan,sumber&order=tanggal.desc&limit=30`;
+      let path=`catatan_iqro?siswa_id=eq.${siswa.id}&select=tanggal,jilid_id,halaman_mulai,halaman_selesai,status,nilai,catatan,sumber&order=tanggal.desc&limit=40`;
       if(sumber!=='semua') path+=`&sumber=eq.${sumber}`;
       const d=await db(path);
-      items=[...items,...d.map(c=>({...c,_tipe:'iqro'}))];
+      items=[...items,...d.map(c=>({...c,_t:'iqro'}))];
     }
-    if(jenis==='semua'||jenis==='tahfidz'){
-      const d=await db(`setoran_tahfidz?siswa_id=eq.${siswa.id}&select=tanggal,surah_no,ayat_mulai,ayat_selesai,jenis,nilai,catatan&order=tanggal.desc&limit=30`).catch(()=>[]);
-      items=[...items,...d.map(c=>({...c,_tipe:'tahfidz',sumber:'sekolah'}))];
+    if((jenis==='semua'||jenis==='tahfidz')&&sumber!=='rumah'){
+      const d=await db(`setoran_tahfidz?siswa_id=eq.${siswa.id}&select=tanggal,surah_no,ayat_mulai,ayat_selesai,jenis,nilai,catatan&order=tanggal.desc&limit=40`).catch(()=>[]);
+      items=[...items,...d.map(c=>({...c,_t:'tahfidz',sumber:'sekolah'}))];
     }
     items.sort((a,b)=>b.tanggal.localeCompare(a.tanggal));
-    if(!items.length){el.innerHTML='<div class="empty"><div class="empty-icon">📋</div><div class="empty-text">Belum ada riwayat.</div></div>';return}
+    if(!items.length){el.innerHTML='<div class="empty"><div class="empty-ico">📋</div><div class="empty-txt">Belum ada riwayat.</div></div>';return}
     el.innerHTML=items.map(c=>{
-      if(c._tipe==='iqro') return `
-        <div class="riwayat-item">
-          <div class="ri-top">
-            <span class="badge bb">📖 Iqro Jilid ${c.jilid_id}</span>
-            <span class="ri-tgl">${c.tanggal}</span>
-          </div>
-          <div class="ri-detail">Hal. <strong>${c.halaman_mulai}–${c.halaman_selesai}</strong> · ${c.status==='lanjut'?'✅ Lanjut':'🔁 Mengulang'} · ${nilaiLabel[c.nilai]||'—'}</div>
-          ${c.catatan?`<div class="ri-catatan">💬 ${c.catatan}</div>`:''}
-          <span class="ri-source ${c.sumber==='rumah'?'rs-rumah':'rs-sekolah'}">${c.sumber==='rumah'?'🏠 Rumah':'🏫 Sekolah'}</span>
-        </div>`;
-      else{
-        const sn=SURAH.find(s=>s.no===c.surah_no)?.nama||`Surah ${c.surah_no}`;
-        return `
-          <div class="riwayat-item">
-            <div class="ri-top">
-              <span class="badge bg">🕌 Tahfidz</span>
-              <span class="ri-tgl">${c.tanggal}</span>
-            </div>
-            <div class="ri-detail"><strong>${sn}</strong> · Ayat ${c.ayat_mulai}–${c.ayat_selesai} · ${c.jenis==='ziyadah'?'✨ Ziyadah':'🔁 Murojaah'} · ${nilaiLabel[c.nilai]||'—'}</div>
-            ${c.catatan?`<div class="ri-catatan">💬 ${c.catatan}</div>`:''}
-          </div>`;
-      }
+      if(c._t==='iqro') return `<div class="ri">
+        <div class="ri-top"><span class="badge bb">📖 Iqro Jilid ${c.jilid_id}</span><span class="ri-tgl">${c.tanggal}</span></div>
+        <div class="ri-body">Hal. <strong>${c.halaman_mulai}–${c.halaman_selesai}</strong> · ${c.status==='lanjut'?'✅ Lanjut':'🔁 Mengulang'} · ${NILAI_LABEL[c.nilai]||'—'}</div>
+        ${c.catatan?`<div class="ri-note">💬 ${c.catatan}</div>`:''}
+        <span class="${c.sumber==='rumah'?'src-r':'src-s'}">${c.sumber==='rumah'?'🏠 Rumah':'🏫 Sekolah'}</span>
+      </div>`;
+      const sn=SURAH.find(s=>s.no===c.surah_no)?.nama||`Surah ${c.surah_no}`;
+      return `<div class="ri">
+        <div class="ri-top"><span class="badge bg">🕌 Tahfidz</span><span class="ri-tgl">${c.tanggal}</span></div>
+        <div class="ri-body"><strong>${sn}</strong> · Ayat ${c.ayat_mulai}–${c.ayat_selesai} · ${c.jenis==='ziyadah'?'✨ Ziyadah':'🔁 Murojaah'} · ${NILAI_LABEL[c.nilai]||'—'}</div>
+        ${c.catatan?`<div class="ri-note">💬 ${c.catatan}</div>`:''}
+        <span class="src-s">🏫 Sekolah</span>
+      </div>`;
     }).join('');
   }catch(e){el.innerHTML=`<div class="empty">Gagal: ${e.message}</div>`}
 }
@@ -560,147 +575,139 @@ async function loadRiwayat(){
 // ── LAPORAN RUMAH ──
 function setJenisLapor(v){
   jenisLapor=v;
-  document.getElementById('jbtn-iqro').className='jenis-btn'+(v==='iqro'?' active':'');
-  document.getElementById('jbtn-tahfidz').className='jenis-btn'+(v==='tahfidz'?' active':'');
-  document.getElementById('form-iqro-rumah').style.display=v==='iqro'?'block':'none';
-  document.getElementById('form-tahfidz-rumah').style.display=v==='tahfidz'?'block':'none';
+  document.getElementById('tgl-iqro').className='tgl'+(v==='iqro'?' on':'');
+  document.getElementById('tgl-tahfidz').className='tgl'+(v==='tahfidz'?' on':'');
+  document.getElementById('form-iqro').style.display=v==='iqro'?'block':'none';
+  document.getElementById('form-tahfidz').style.display=v==='tahfidz'?'block':'none';
 }
-function setJenisIqroRumah(v){
-  jenisIqroRumah=v;
-  document.getElementById('jbtn-ngaji').className='jenis-btn'+(v==='ngaji'?' active':'');
-  document.getElementById('jbtn-murojaah-iqro').className='jenis-btn'+(v==='murajaah'?' active':'');
+function setIqroJenis(v){
+  iqroJenis=v;
+  document.getElementById('tgl-ngaji').className='tgl'+(v==='ngaji'?' on':'');
+  document.getElementById('tgl-ulang').className='tgl'+(v==='murajaah'?' on':'');
 }
-function setJenisTahfidzRumah(v){
-  jenisTahfidzRumah=v;
-  document.getElementById('jbtn-ziyadah').className='jenis-btn'+(v==='ziyadah'?' active':'');
-  document.getElementById('jbtn-murojaah-tf').className='jenis-btn'+(v==='murojaah'?' active':'');
+function setTfJenis(v){
+  tfJenis=v;
+  document.getElementById('tgl-ziyadah').className='tgl'+(v==='ziyadah'?' on':'');
+  document.getElementById('tgl-murojaah').className='tgl'+(v==='murojaah'?' on':'');
 }
 
 async function kirimLaporan(){
   if(!siswa)return toast('Data siswa belum terhubung.','error');
-  const tgl=document.getElementById('lapor-tgl').value;
-  const catatan=document.getElementById('lapor-catatan').value.trim();
+  const tgl=document.getElementById('l-tgl').value;
+  const catatan=document.getElementById('l-catatan').value.trim();
   if(!tgl)return toast('Isi tanggal terlebih dahulu.','error');
   const btn=document.getElementById('btn-lapor');
   btn.disabled=true;btn.textContent='⏳ Mengirim...';
   try{
     if(jenisLapor==='iqro'){
-      const jilid=document.getElementById('lapor-jilid').value;
-      const halMulai=parseInt(document.getElementById('lapor-hal-mulai').value)||0;
-      const halSelesai=parseInt(document.getElementById('lapor-hal-selesai').value)||0;
-      if(!jilid||!halMulai||!halSelesai){btn.disabled=false;btn.textContent='📤 Kirim Laporan';return toast('Isi jilid dan halaman.','error')}
+      const jilid=document.getElementById('l-jilid').value;
+      const hm=parseInt(document.getElementById('l-hal-mulai').value)||0;
+      const hs=parseInt(document.getElementById('l-hal-selesai').value)||0;
+      if(!jilid||!hm||!hs){btn.disabled=false;btn.textContent='📤 Kirim Laporan';return toast('Isi jilid dan halaman.','error')}
       await db('laporan_rumah_iqro',{method:'POST',body:JSON.stringify({
         siswa_id:siswa.id,wali_id:me.id,jilid_id:parseInt(jilid),
-        halaman_mulai:halMulai,halaman_selesai:halSelesai,
-        jenis:jenisIqroRumah,catatan:catatan||null,tanggal:tgl
+        halaman_mulai:hm,halaman_selesai:hs,jenis:iqroJenis,catatan:catatan||null,tanggal:tgl
       })});
-      // Juga simpan ke catatan_iqro agar muncul di riwayat guru
       await db('catatan_iqro',{method:'POST',body:JSON.stringify({
         siswa_id:siswa.id,guru_id:me.id,jilid_id:parseInt(jilid),
-        halaman_mulai:halMulai,halaman_selesai:halSelesai,
-        status:'lanjut',nilai:'jayyid',catatan:catatan?`[Rumah] ${catatan}`:'[Laporan dari rumah]',
-        sumber:'rumah',tanggal:tgl
+        halaman_mulai:hm,halaman_selesai:hs,status:'lanjut',nilai:'jayyid',
+        catatan:catatan?`[Rumah] ${catatan}`:'[Laporan dari rumah]',sumber:'rumah',tanggal:tgl
       })}).catch(()=>{});
     } else {
-      const surahNo=document.getElementById('lapor-surah').value;
+      const surahNo=document.getElementById('l-surah').value;
       if(!surahNo){btn.disabled=false;btn.textContent='📤 Kirim Laporan';return toast('Pilih surah.','error')}
       await db('setoran_tahfidz',{method:'POST',body:JSON.stringify({
         siswa_id:siswa.id,guru_id:me.id,surah_no:parseInt(surahNo),
-        ayat_mulai:1,ayat_selesai:1,jenis:jenisTahfidzRumah,
-        nilai:'jayyid',catatan:catatan?`[Rumah] ${catatan}`:'[Laporan dari rumah]',tanggal:tgl
+        ayat_mulai:1,ayat_selesai:1,jenis:tfJenis,nilai:'jayyid',
+        catatan:catatan?`[Rumah] ${catatan}`:'[Laporan dari rumah]',tanggal:tgl
       })}).catch(()=>{});
     }
     toast('✅ Laporan berhasil dikirim!','success');
-    // Reset form
-    document.getElementById('lapor-jilid').value='';
-    document.getElementById('lapor-hal-mulai').value='';
-    document.getElementById('lapor-hal-selesai').value='';
-    document.getElementById('lapor-surah').value='';
-    document.getElementById('lapor-catatan').value='';
-    loadRiwayatLaporRumah();
+    ['l-jilid','l-hal-mulai','l-hal-selesai','l-surah','l-catatan'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('l-tgl').value=new Date().toISOString().split('T')[0];
+    loadRiwayatLapor();
     loadProgress();
   }catch(e){toast('Gagal: '+e.message,'error')}
   btn.disabled=false;btn.textContent='📤 Kirim Laporan';
 }
 
-async function loadRiwayatLaporRumah(){
+async function loadRiwayatLapor(){
   if(!siswa)return;
-  const el=document.getElementById('riwayat-lapor-rumah');
+  const el=document.getElementById('riwayat-lapor');
   try{
-    const data=await db(`laporan_rumah_iqro?siswa_id=eq.${siswa.id}&select=tanggal,jilid_id,halaman_mulai,halaman_selesai,jenis,catatan,diverifikasi&order=tanggal.desc&limit=20`);
-    if(!data.length){el.innerHTML='<div class="empty"><div class="empty-icon">🏠</div><div class="empty-text">Belum ada laporan dari rumah.</div></div>';return}
-    el.innerHTML=data.map(d=>`
-      <div class="riwayat-item">
-        <div class="ri-top">
-          <span class="badge bb">Jilid ${d.jilid_id} · Hal ${d.halaman_mulai}–${d.halaman_selesai}</span>
-          <span class="ri-tgl">${d.tanggal}</span>
-        </div>
-        <div class="ri-detail">${d.jenis==='ngaji'?'📖 Ngaji Baru':'🔁 Murojaah'}</div>
-        ${d.catatan?`<div class="ri-catatan">💬 ${d.catatan}</div>`:''}
-        <span class="ri-source ${d.diverifikasi?'rs-sekolah':'rs-rumah'}">${d.diverifikasi?'✅ Terverifikasi Guru':'⏳ Menunggu Verifikasi'}</span>
-      </div>`).join('');
+    const d=await db(`laporan_rumah_iqro?siswa_id=eq.${siswa.id}&select=tanggal,jilid_id,halaman_mulai,halaman_selesai,jenis,catatan,diverifikasi&order=tanggal.desc&limit=20`);
+    if(!d.length){el.innerHTML='<div class="empty"><div class="empty-ico">🏠</div><div class="empty-txt">Belum ada laporan dari rumah.</div></div>';return}
+    el.innerHTML=d.map(r=>`<div class="ri">
+      <div class="ri-top"><span class="badge bb">Jilid ${r.jilid_id} · Hal ${r.halaman_mulai}–${r.halaman_selesai}</span><span class="ri-tgl">${r.tanggal}</span></div>
+      <div class="ri-body">${r.jenis==='ngaji'?'📖 Ngaji Baru':'🔁 Murojaah'}</div>
+      ${r.catatan?`<div class="ri-note">💬 ${r.catatan}</div>`:''}
+      <span class="${r.diverifikasi?'src-s':'src-r'}">${r.diverifikasi?'✅ Terverifikasi Guru':'⏳ Menunggu Verifikasi'}</span>
+    </div>`).join('');
   }catch(e){el.innerHTML='<div class="empty">Gagal memuat.</div>'}
 }
 
 // ── PESAN ──
 function setTipe(v){
   selTipe=v;
-  ['saran','kritik','pertanyaan','apresiasi'].forEach(t=>{
-    document.getElementById(`tbtn-${t}`).className=`tipe-btn${t===v?` active ${t}`:''}`;
-  });
+  const map={saran:'tgl-saran',kritik:'tgl-kritik',pertanyaan:'tgl-tanya',apresiasi:'tgl-apresiasi'};
+  Object.keys(map).forEach(k=>document.getElementById(map[k]).className='tgl'+(k===v?' on':''));
 }
 async function kirimPesan(){
-  const pesan=document.getElementById('pesan-teks').value.trim();
-  if(!pesan)return toast('Tulis pesan terlebih dahulu.','error');
-  if(pesan.length<10)return toast('Pesan terlalu singkat, minimal 10 karakter.','error');
-  const btn=document.getElementById('btn-kirim-pesan');
+  const pesan=document.getElementById('p-teks').value.trim();
+  if(!pesan||pesan.length<5)return toast('Tulis pesan minimal 5 karakter.','error');
+  const btn=document.getElementById('btn-pesan');
   btn.disabled=true;btn.textContent='⏳ Mengirim...';
   try{
     await db('feedback_ortu',{method:'POST',body:JSON.stringify({
-      akun_ortu_id:me.id,nama_pengirim:me.nama,
-      siswa_id:siswa?.id||null,tipe:selTipe,pesan
+      akun_ortu_id:me.id,nama_pengirim:me.nama,siswa_id:siswa?.id||null,tipe:selTipe,pesan
     })});
-    document.getElementById('pesan-teks').value='';
-    toast('✅ Pesan berhasil dikirim ke sekolah!','success');
+    document.getElementById('p-teks').value='';
+    toast('✅ Pesan berhasil dikirim!','success');
     loadRiwayatPesan();
   }catch(e){toast('Gagal: '+e.message,'error')}
   btn.disabled=false;btn.textContent='📨 Kirim Pesan';
 }
 async function loadRiwayatPesan(){
   const el=document.getElementById('riwayat-pesan');
+  const tipeMap={saran:'💡 Saran',kritik:'⚠️ Kritik',pertanyaan:'❓ Pertanyaan',apresiasi:'⭐ Apresiasi'};
+  const tipeCls={saran:'bb',kritik:'br',pertanyaan:'bo',apresiasi:'bg'};
   try{
-    const data=await db(`feedback_ortu?akun_ortu_id=eq.${me.id}&select=tipe,pesan,created_at&order=created_at.desc&limit=20`);
-    const tipeLabel={saran:'💡 Saran',kritik:'⚠️ Kritik',pertanyaan:'❓ Pertanyaan',apresiasi:'⭐ Apresiasi'};
-    const tipeCls={saran:'bb',kritik:'br',pertanyaan:'bo',apresiasi:'bg'};
-    if(!data.length){el.innerHTML='<div class="empty"><div class="empty-icon">💬</div><div class="empty-text">Belum ada pesan.</div></div>';return}
-    el.innerHTML=data.map(d=>`
-      <div class="riwayat-fb">
-        <div class="rfb-top">
-          <span class="rfb-tipe badge ${tipeCls[d.tipe]||'bx'}">${tipeLabel[d.tipe]||d.tipe}</span>
-          <span class="rfb-tgl">${new Date(d.created_at).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</span>
-        </div>
-        <div class="rfb-msg">${d.pesan}</div>
-      </div>`).join('');
+    const d=await db(`feedback_ortu?akun_ortu_id=eq.${me.id}&select=tipe,pesan,created_at&order=created_at.desc&limit=20`);
+    if(!d.length){el.innerHTML='<div class="empty"><div class="empty-ico">💬</div><div class="empty-txt">Belum ada pesan.</div></div>';return}
+    el.innerHTML=d.map(f=>`<div class="ri">
+      <div class="ri-top">
+        <span class="badge ${tipeCls[f.tipe]||'bx'}">${tipeMap[f.tipe]||f.tipe}</span>
+        <span class="ri-tgl">${new Date(f.created_at).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'})}</span>
+      </div>
+      <div class="ri-body">${f.pesan}</div>
+    </div>`).join('');
   }catch(e){el.innerHTML='<div class="empty">Gagal memuat.</div>'}
 }
 
 // ── TABS ──
 function switchTab(name){
-  const tabs=['progress','riwayat','lapor','pesan'];
-  tabs.forEach(t=>{
+  const all=['progress','riwayat','lapor','pesan'];
+  all.forEach(t=>{
     const el=document.getElementById(`tab-${t}`);
-    if(el) el.style.display=t===name?'block':'none';
+    if(el)el.style.display=t===name?'block':'none';
     const btn=document.getElementById(`tbtn-${t}`);
-    if(btn) btn.className='tab-btn'+(t===name?' active':'');
+    if(btn)btn.className='tab-btn'+(t===name?' active':'');
   });
-  if(name==='riwayat') loadRiwayat();
-  if(name==='lapor') loadRiwayatLaporRumah();
-  if(name==='pesan') loadRiwayatPesan();
+  if(name==='riwayat')loadRiwayat();
+  if(name==='lapor')loadRiwayatLapor();
+  if(name==='pesan')loadRiwayatPesan();
 }
 
-function switchScreen(name){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(`screen-${name}`).classList.add('active')}
+function switchScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active')});
+  document.getElementById(`screen-${name}`).classList.add('active');
+}
 let toastT;
-function toast(msg,type='info'){const t=document.getElementById('toast');t.textContent=msg;t.className=`toast ${type} show`;clearTimeout(toastT);toastT=setTimeout(()=>t.className='toast',3500)}
+function toast(msg,type='info'){
+  const t=document.getElementById('toast');t.textContent=msg;
+  t.className=`toast ${type} show`;clearTimeout(toastT);
+  toastT=setTimeout(()=>t.className='toast',3500);
+}
 </script>
 </body>
 </html>
