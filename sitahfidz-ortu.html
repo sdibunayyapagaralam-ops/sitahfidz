@@ -545,17 +545,50 @@ async function kirimLaporan(){
       const hm=parseInt(document.getElementById('l-hmulai').value)||0;
       const hs=parseInt(document.getElementById('l-hselesai').value)||0;
       if(!jilid||!hm||!hs){btn.disabled=false;btn.textContent='📤 Kirim Laporan';return toast('Isi jilid dan halaman.','error')}
-      await db('laporan_rumah_iqro',{method:'POST',body:JSON.stringify({siswa_id:siswa.id,wali_id:me.id,jilid_id:parseInt(jilid),halaman_mulai:hm,halaman_selesai:hs,jenis:iqroJenis,catatan:cat||null,tanggal:tgl})});
-      await db('catatan_iqro',{method:'POST',body:JSON.stringify({siswa_id:siswa.id,guru_id:me.id,jilid_id:parseInt(jilid),halaman_mulai:hm,halaman_selesai:hs,status:'lanjut',nilai:'jayyid',catatan:cat?`[Rumah] ${cat}`:'[Laporan dari rumah]',sumber:'rumah',tanggal:tgl})}).catch(()=>{});
+      // Simpan ke laporan_rumah_iqro (tanpa wali_id/guru_id - pakai akun_ortu_id)
+      await db('laporan_rumah_iqro',{method:'POST',body:JSON.stringify({
+        siswa_id:siswa.id,
+        akun_ortu_id:me.id,
+        jilid_id:parseInt(jilid),
+        halaman_mulai:hm,
+        halaman_selesai:hs,
+        jenis:iqroJenis,
+        catatan:cat||null,
+        tanggal:tgl,
+        diverifikasi:false
+      })});
     }else if(laporJenis==='quran'){
       const juz=document.getElementById('l-juz').value;
       const hal=parseInt(document.getElementById('l-hal-quran').value)||0;
       if(!juz||!hal){btn.disabled=false;btn.textContent='📤 Kirim Laporan';return toast('Isi juz dan halaman.','error')}
-      await db('setoran_quran',{method:'POST',body:JSON.stringify({siswa_id:siswa.id,guru_id:me.id,juz:parseInt(juz),halaman:hal,nilai:'jayyid',catatan:cat?`[Rumah] ${cat}`:'[Laporan dari rumah]',tanggal:tgl})}).catch(()=>{});
+      // Simpan ke laporan_rumah_iqro dengan keterangan quran
+      await db('laporan_rumah_iqro',{method:'POST',body:JSON.stringify({
+        siswa_id:siswa.id,
+        akun_ortu_id:me.id,
+        jilid_id:0,
+        halaman_mulai:parseInt(juz),
+        halaman_selesai:hal,
+        jenis:'quran',
+        catatan:(cat?cat+' ':'')+'[Juz '+juz+' Hal.'+hal+']',
+        tanggal:tgl,
+        diverifikasi:false
+      })});
     }else{
       const surahNo=document.getElementById('l-surah').value;
       if(!surahNo){btn.disabled=false;btn.textContent='📤 Kirim Laporan';return toast('Pilih surah.','error')}
-      await db('setoran_tahfidz',{method:'POST',body:JSON.stringify({siswa_id:siswa.id,guru_id:me.id,surah_no:parseInt(surahNo),ayat_mulai:1,ayat_selesai:1,jenis:tfJenis,nilai:'jayyid',catatan:cat?`[Rumah] ${cat}`:'[Laporan dari rumah]',tanggal:tgl})}).catch(()=>{});
+      const sn=SURAH_MAP[surahNo];
+      // Simpan ke laporan_rumah_iqro dengan keterangan tahfidz
+      await db('laporan_rumah_iqro',{method:'POST',body:JSON.stringify({
+        siswa_id:siswa.id,
+        akun_ortu_id:me.id,
+        jilid_id:0,
+        halaman_mulai:0,
+        halaman_selesai:0,
+        jenis:'tahfidz',
+        catatan:(cat?cat+' ':'')+'['+tfJenis+': '+(sn?sn.nama:'Surah '+surahNo)+']',
+        tanggal:tgl,
+        diverifikasi:false
+      })});
     }
     toast('✅ Laporan berhasil dikirim!','success');
     document.getElementById('l-catatan').value='';
